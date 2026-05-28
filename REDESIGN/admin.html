@@ -390,6 +390,7 @@
 </head>
 
 <body>
+
   <div class="admin-container">
     <div class="admin-header">
       <h1>Gallery Admin</h1>
@@ -419,6 +420,7 @@
         <div class="form-group">
           <label>Cover/Display Image URL</label>
           <input type="text" id="new-proj-img" placeholder="../images/upcoming.png">
+           <input type="file" id="new-proj-img-file" accept="image/*" style="margin-top:8px;" onchange="handleNewProjectImageFile(this.files)">
         </div>
       </div>
       <div class="form-group" style="margin-bottom: 15px;">
@@ -431,6 +433,7 @@
     <div id="motorsport" class="tab-content active">
       <div class="projects-list" id="motorsport-list"></div>
       <button class="save-btn" onclick="saveProjects('motorsport')">Save Changes</button>
+      <button class="save-btn" onclick="publishProjects('motorsport')">Publish to GitHub</button>
       <div class="status-message" id="motorsport-status"></div>
       <div class="drag-hint">💡 Drag projects by their headers to reorder them</div>
     </div>
@@ -438,10 +441,16 @@
     <div id="astro" class="tab-content">
       <div class="projects-list" id="astro-list"></div>
       <button class="save-btn" onclick="saveProjects('astro')">Save Changes</button>
+      <button class="save-btn" onclick="publishProjects('astro')">Publish to GitHub</button>
       <div class="status-message" id="astro-status"></div>
       <div class="drag-hint">💡 Drag projects by their headers to reorder them</div>
     </div>
   </div>
+  <!-- button for returning to index.html, fixed on the right side -->
+   <a href="../index.html" class="buttontoreturn">
+  <button class="buttontoreturn">Return to Gallery</button>
+
+   </a>
 
   <script>
     let motorsportProjects = [];
@@ -513,7 +522,7 @@
               </div>
             </div>
 
-            <div id="drawer-${gallery}-${pIndex}" class="photos-drawer">
+            <div id="drawer-${gallery}-${pIndex}" class="photos-drawer" ondragover="photoHandleDragOver(event)" ondrop="handleDropOnDrawer(event, '${gallery}', ${pIndex})" ondragleave="handleDragLeave(event)">
               <div class="inner-photos-grid">
                 ${photosHTML}
               </div>
@@ -535,6 +544,11 @@
                   </div>
                   <button class="add-btn" style="padding: 8px 15px;" onclick="addPhotoToProject('${gallery}', ${pIndex})">Add Photo</button>
                 </div>
+                 <div style="margin-top:12px; display:flex; gap:10px; align-items:center;">
+                   <input type="file" id="upload-photo-input-${gallery}-${pIndex}" accept="image/*" multiple style="display:none" onchange="handlePhotoFiles('${gallery}', ${pIndex}, this.files)">
+                   <button class="add-btn" onclick="document.getElementById('upload-photo-input-${gallery}-${pIndex}').click();">Upload Photo(s)</button>
+                   <span style="color:#666; font-size:0.9em">Or drag & drop images into the album area.</span>
+                 </div>
               </div>
             </div>
 
@@ -589,6 +603,142 @@
       renderProjects(gallery);
       document.getElementById(`drawer-${gallery}-${projIndex}`).classList.add('open');
     }
+
+    // Handle dragover for photo drop areas
+    function photoHandleDragOver(e) {
+      e.preventDefault();
+      if (e.currentTarget) e.currentTarget.classList.add('drag-over');
+      try { e.dataTransfer.dropEffect = 'copy'; } catch (ignore) {}
+    }
+
+    // Handle files dropped into a project's photo drawer
+    function handleDropOnDrawer(e, gallery, projIndex) {
+      e.preventDefault();
+      if (e.currentTarget) e.currentTarget.classList.remove('drag-over');
+      const files = e.dataTransfer && e.dataTransfer.files ? e.dataTransfer.files : null;
+      if (files) handlePhotoFiles(gallery, projIndex, files);
+    }
+
+    // Read File objects and append as data URLs to project images
+    function handlePhotoFiles(gallery, projIndex, files) {
+      if (!files || files.length === 0) return;
+      const projects = gallery === 'motorsport' ? motorsportProjects : astroProjects;
+      Array.from(files).forEach(file => {
+        if (!file.type || !file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          projects[projIndex].images.push({ src: ev.target.result, alt: file.name, comment: '' });
+          renderProjects(gallery);
+          const d = document.getElementById(`drawer-${gallery}-${projIndex}`);
+          if (d) d.classList.add('open');
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Set new project cover image from uploaded file (data URL)
+    function handleNewProjectImageFile(files) {
+      if (!files || files.length === 0) return;
+      const file = files[0];
+      if (!file.type || !file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const imgInput = document.getElementById('new-proj-img');
+        if (imgInput) imgInput.value = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Initiate OAuth-backed publish flow via server
+    function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+    async function publishProjects(gallery) {
+      const serverBase = prompt('OAuth server URL', 'http://localhost:3000');
+      if (!serverBase) return showStatus('Publish canceled: no server URL', 'error', gallery);
+
+      // If we already have an oauth_state from a completed auth redirect, use it to publish
+      const oauthState = getQueryParam('oauth_state');
+      const projects = gallery === 'motorsport' ? motorsportProjects : astroProjects;
+
+      if (oauthState) {
+        showStatus('Sending projects to publisher...', 'success', gallery);
+        try {
+          const res = await fetch(`${serverBase.replace(/\/$/, '')}/publish`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ state: oauthState, gallery, projects })
+          });
+          const js = await res.json();
+          if (!res.ok) throw new Error(js.error || JSON.stringify(js));
+          showStatus('Publish complete — repository updated.', 'success', gallery);
+        } catch (err) {
+          console.error(err);
+          showStatus('Publish failed: ' + (err.message || err), 'error', gallery);
+        }
+        return;
+      }
+
+      // No auth state yet — collect repo info and start OAuth flow
+      const owner = prompt('Repo owner (username)', 'LeonardoCarolo99');
+      if (!owner) return showStatus('Publish canceled: no owner', 'error', gallery);
+      const repo = prompt('Repo name', 'LeonardoCarolo99.github.io');
+      if (!repo) return showStatus('Publish canceled: no repo', 'error', gallery);
+      const branch = prompt('Branch', 'main') || 'main';
+
+      const returnTo = window.location.href;
+      // save projects to session storage so we can publish after redirect
+      try { sessionStorage.setItem(`pendingPublish_${gallery}`, JSON.stringify(projects)); } catch (ignore) {}
+      try { sessionStorage.setItem('publisher_server', serverBase); } catch (ignore) {}
+
+      const startUrl = `${serverBase.replace(/\/$/, '')}/auth/start?returnTo=${encodeURIComponent(returnTo)}&owner=${encodeURIComponent(owner)}&repo=${encodeURIComponent(repo)}&branch=${encodeURIComponent(branch)}&gallery=${encodeURIComponent(gallery)}`;
+      // redirect to server to begin OAuth flow
+      window.location.href = startUrl;
+    }
+
+    // Auto-publish when returning from OAuth callback (oauth_state present)
+    async function autoPublishFromCallback() {
+      const oauthState = getQueryParam('oauth_state');
+      if (!oauthState) return;
+      const serverBase = sessionStorage.getItem('publisher_server') || prompt('OAuth server URL', 'http://localhost:3000');
+      if (!serverBase) return showStatus('Publish canceled: no server URL', 'error', 'motorsport');
+
+      const galleries = ['motorsport','astro'];
+      for (const gallery of galleries) {
+        const pending = sessionStorage.getItem(`pendingPublish_${gallery}`);
+        if (!pending) continue;
+        let projects;
+        try { projects = JSON.parse(pending); } catch (e) { continue; }
+
+        showStatus(`Publishing ${gallery}...`, 'success', gallery);
+        try {
+          const res = await fetch(`${serverBase.replace(/\/$/, '')}/publish`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ state: oauthState, gallery, projects })
+          });
+          const js = await res.json();
+          if (!res.ok) throw new Error(js.error || JSON.stringify(js));
+          sessionStorage.removeItem(`pendingPublish_${gallery}`);
+          showStatus(`Publish complete for ${gallery}.`, 'success', gallery);
+        } catch (err) {
+          console.error(err);
+          showStatus(`Publish failed for ${gallery}: ` + (err.message || err), 'error', gallery);
+        }
+      }
+
+      // cleanup URL (remove oauth_state)
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('oauth_state');
+        window.history.replaceState({}, document.title, url.toString());
+      } catch (ignore) {}
+    }
+
+    // run auto-publish after page loads
+    window.addEventListener('DOMContentLoaded', autoPublishFromCallback);
 
     function addProject() {
       const idInput = document.getElementById('new-proj-id');
