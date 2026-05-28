@@ -47,15 +47,37 @@
   <script src="navbar.js"></script>
   <script>
     let projects = [];
+    const storageKey = 'projects-motorsport';
 
     async function loadProjects() {
       try {
+        let saved = null;
+        try {
+          saved = localStorage.getItem(storageKey);
+        } catch (ignore) {}
+
+        if (saved) {
+          projects = JSON.parse(saved);
+          renderGallery();
+          return;
+        }
+
         projects = await fetch('projects-motorsport.json').then(r => r.json());
         renderGallery();
       } catch (error) {
         console.error('Error loading projects:', error);
       }
     }
+
+    window.addEventListener('storage', event => {
+      if (event.key !== storageKey) return;
+      try {
+        projects = JSON.parse(event.newValue || '[]');
+        renderGallery();
+      } catch (error) {
+        console.error('Error updating projects from storage event:', error);
+      }
+    });
 
     function renderGallery() {
       const container = document.getElementById('gallery-container');

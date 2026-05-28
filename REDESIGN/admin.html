@@ -430,14 +430,14 @@
 
     <div id="motorsport" class="tab-content active">
       <div class="projects-list" id="motorsport-list"></div>
-      <button class="save-btn" onclick="saveProjects('motorsport')">Save Changes (Download JSON)</button>
+      <button class="save-btn" onclick="saveProjects('motorsport')">Save Changes</button>
       <div class="status-message" id="motorsport-status"></div>
       <div class="drag-hint">💡 Drag projects by their headers to reorder them</div>
     </div>
 
     <div id="astro" class="tab-content">
       <div class="projects-list" id="astro-list"></div>
-      <button class="save-btn" onclick="saveProjects('astro')">Save Changes (Download JSON)</button>
+      <button class="save-btn" onclick="saveProjects('astro')">Save Changes</button>
       <div class="status-message" id="astro-status"></div>
       <div class="drag-hint">💡 Drag projects by their headers to reorder them</div>
     </div>
@@ -451,12 +451,24 @@
 
     async function loadProjects() {
       try {
-        motorsportProjects = await fetch('projects-motorsport.json').then(r => r.ok ? r.json() : []);
+        let saved = null;
+        try { saved = localStorage.getItem('projects-motorsport'); } catch (ignore) {}
+        if (saved) {
+          motorsportProjects = JSON.parse(saved);
+        } else {
+          motorsportProjects = await fetch('projects-motorsport.json').then(r => r.ok ? r.json() : []);
+        }
         renderProjects('motorsport');
       } catch (e) { console.warn('Could not read projects-motorsport.json'); }
 
       try {
-        astroProjects = await fetch('projects-astro.json').then(r => r.ok ? r.json() : []);
+        let saved = null;
+        try { saved = localStorage.getItem('projects-astro'); } catch (ignore) {}
+        if (saved) {
+          astroProjects = JSON.parse(saved);
+        } else {
+          astroProjects = await fetch('projects-astro.json').then(r => r.ok ? r.json() : []);
+        }
         renderProjects('astro');
       } catch (e) { console.warn('Could not read projects-astro.json'); }
     }
@@ -667,17 +679,11 @@
       const projects = gallery === 'motorsport' ? motorsportProjects : astroProjects;
       try {
         const dataStr = JSON.stringify(projects, null, 2);
-        const blob = new Blob([dataStr], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `projects-${gallery}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
+        localStorage.setItem(`projects-${gallery}`, dataStr);
 
-        showStatus('Changes generated successfully! Move the downloaded file into your project folder.', 'success', gallery);
+        showStatus('Changes saved to browser storage. Open the gallery page to see the update.', 'success', gallery);
       } catch (error) {
-        showStatus('Error exporting file tracking layers', 'error', gallery);
+        showStatus('Error saving projects to browser storage', 'error', gallery);
       }
     }
 
