@@ -3,10 +3,10 @@
     "id": "astro-001",
     "title": "Coming Soon",
     "displayTitle": "Coming Soon",
-    "displayImage": "../images/upcoming.png",
+    "displayImage": "../images/upcoming.webp",
     "images": [
       {
-        "src": "../images/upcoming.png",
+        "src": "../images/upcoming.webp",
         "alt": "Coming Soon",
         "comment": ""
       }
