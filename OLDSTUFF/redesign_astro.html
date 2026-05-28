@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Astrophotography - Leonardo Carôlo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Finlandica+Headline:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="redesign_navbar.css">
+  <link rel="stylesheet" href="redesign_gallery.css">
+</head>
+
+<body>
+  <div id="navbar-container"></div>
+
+  <div class="gallery-page-container">
+    <section class="page-hero">
+      <span class="hero-label">Photography Gallery</span>
+      <h1 class="hero-title">Astrophotography</h1>
+      <p class="hero-description">Capturing the cosmos and celestial wonders through the lens.</p>
+    </section>
+
+    <main class="gallery-container">
+      <div class="gallery-item" onclick="openPhoto(this)">
+        <div class="item-background" style="background-image: url('images/upcoming.png')"></div>
+        <div class="item-overlay">
+          <h3>Coming Soon</h3>
+        </div>
+      </div>
+    </main>
+
+    <!-- Photo Viewer Modal -->
+    <dialog id="photo-viewer" class="photo-viewer-modal">
+      <button class="close-btn" onclick="document.getElementById('photo-viewer').close()">&times;</button>
+      <div class="photo-viewer-content">
+        <img id="viewer-img" src="" alt="">
+      </div>
+      <div class="photo-viewer-sidebar">
+        <h3 id="viewer-title">Photo Title</h3>
+        <p id="viewer-comment">Details appear here.</p>
+      </div>
+    </dialog>
+
+  </div>
+
+  <script src="redesign_navbar.js"></script>
+  <script>
+    function openPhoto(element) {
+      const itemBg = element.querySelector('.item-background');
+      const imgSrc = itemBg.style.backgroundImage.slice(5, -2);
+      const imgAlt = element.querySelector('.item-overlay h3').innerText;
+      const imgComment = element.getAttribute('data-comment') || "";
+
+      document.getElementById('viewer-img').src = imgSrc;
+      document.getElementById('viewer-title').innerText = imgAlt;
+      document.getElementById('viewer-comment').innerText = imgComment;
+
+      if (imgAlt === "" && imgComment === "") {
+        document.getElementById('viewer-title').innerHTML = "";
+        document.getElementById('viewer-comment').innerHTML = "";
+      }
+
+      document.getElementById('photo-viewer').showModal();
+    }
+  </script>
+
+</body>
+
+</html>

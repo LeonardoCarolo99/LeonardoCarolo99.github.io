@@ -1,0 +1,15 @@
+[
+  {
+    "id": "astro-001",
+    "title": "Coming Soon",
+    "displayTitle": "Coming Soon",
+    "displayImage": "../images/upcoming.png",
+    "images": [
+      {
+        "src": "../images/upcoming.png",
+        "alt": "Coming Soon",
+        "comment": ""
+      }
+    ]
+  }
+]

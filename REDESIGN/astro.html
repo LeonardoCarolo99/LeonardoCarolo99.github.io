@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Astrophotography - Leonardo Carôlo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Finlandica+Headline:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="navbar.css">
+  <link rel="stylesheet" href="gallery.css">
+</head>
+
+<body>
+  <div id="navbar-container"></div>
+
+  <div class="gallery-page-container">
+    <section class="page-hero">
+      <span class="hero-label">Photography Gallery</span>
+      <h1 class="hero-title">Astrophotography</h1>
+      <p class="hero-description">Capturing the cosmos and celestial wonders through the lens.</p>
+    </section>
+
+    <main class="gallery-container" id="gallery-container">
+      <!-- Projects will be loaded here by JavaScript -->
+    </main>
+
+    <!-- Modals container -->
+    <div id="modals-container"></div>
+
+    <!-- Photo Viewer Modal -->
+    <dialog id="photo-viewer" class="photo-viewer-modal">
+      <button class="close-btn" onclick="closedPhotoViewer()">&times;</button>
+      <div class="photo-viewer-content">
+        <img id="viewer-img" src="" alt="">
+      </div>
+      <div class="photo-viewer-sidebar">
+        <h3 id="viewer-title">Photo Title</h3>
+        <p id="viewer-comment">Details appear here.</p>
+      </div>
+    </dialog>
+
+  </div>
+
+  <script src="navbar.js"></script>
+  <script>
+    let projects = [];
+
+    async function loadProjects() {
+      try {
+        projects = await fetch('projects-astro.json').then(r => r.json());
+        renderGallery();
+      } catch (error) {
+        console.error('Error loading projects:', error);
+      }
+    }
+
+    function renderGallery() {
+      const container = document.getElementById('gallery-container');
+      const modalsContainer = document.getElementById('modals-container');
+
+      // Render gallery items
+      container.innerHTML = projects.map(project => `
+        <div class="gallery-item" onclick="openModal(this, '${project.id}')">
+          <div class="item-background" style="background-image: url('${project.displayImage}')"></div>
+          <div class="item-overlay">
+            <h3>${project.displayTitle}</h3>
+          </div>
+        </div>
+      `).join('');
+
+      // Render modals
+      modalsContainer.innerHTML = projects.map(project => `
+        <dialog id="${project.id}" class="detail-modal">
+          <div class="modal-header">
+            <h2>${project.title}</h2>
+            <p class="subtitle">${project.subtitle || ''}</p>
+            <button class="close-btn" onclick="closeDetailModal('${project.id}')">&times;</button>
+          </div>
+          <div class="modal-gallery">
+            ${project.images.map(img => `
+              <img src="${img.src}" alt="${img.alt}" data-comment="${img.comment}" onclick="openPhoto(this)">
+            `).join('')}
+          </div>
+        </dialog>
+      `).join('');
+    }
+
+    function closeDetailModal(modalId) {
+      const photoViewer = document.getElementById('photo-viewer');
+      if (photoViewer && photoViewer.open) {
+        photoViewer.close();
+      }
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.close();
+      }
+    }
+
+    function closedPhotoViewer() {
+      const photoViewer = document.getElementById('photo-viewer');
+      if (photoViewer && photoViewer.open) {
+        photoViewer.close();
+      }
+    }
+
+    function openModal(element, modalId) {
+      document.getElementById(modalId).showModal();
+    }
+
+    function openPhoto(element) {
+      const itemBg = element.closest('.modal-gallery') ? null : element;
+      const imgSrc = element.src;
+      const imgAlt = element.alt || "";
+      const imgComment = element.getAttribute('data-comment') || "";
+
+      document.getElementById('viewer-img').src = imgSrc;
+      document.getElementById('viewer-title').innerText = imgAlt;
+      document.getElementById('viewer-comment').innerText = imgComment;
+
+      if (imgAlt === "" && imgComment === "") {
+        document.getElementById('viewer-title').innerHTML = "";
+        document.getElementById('viewer-comment').innerHTML = "";
+      }
+
+      document.getElementById('photo-viewer').showModal();
+    }
+
+    loadProjects();
+  </script>
+
+</body>
+
+</html>

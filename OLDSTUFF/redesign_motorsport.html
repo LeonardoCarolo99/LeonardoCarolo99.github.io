@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motorsport Gallery - Leonardo Carôlo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Finlandica+Headline:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="redesign_navbar.css">
+  <link rel="stylesheet" href="redesign_gallery.css">
+</head>
+
+<body>
+  <div id="navbar-container"></div>
+
+  <div class="gallery-page-container">
+    <section class="page-hero">
+      <span class="hero-label">Photography Gallery</span>
+      <h1 class="hero-title">Motorsport</h1>
+      <p class="hero-description">High-speed action, raw power, and automotive excellence captured through the lens.</p>
+    </section>
+
+    <main class="gallery-container">
+      <!-- Rally Portugal -->
+      <div class="gallery-item" onclick="openModal(this, 'rally-modal')">
+        <div class="item-background" style="background-image: url('images/RallyPortugal/THEONEIMG_5479.JPG')"></div>
+        <div class="item-overlay">
+          <h3>WRC Rally Portugal</h3>
+        </div>
+      </div>
+
+      <!-- Mercedes CLA -->
+      <div class="gallery-item" onclick="openModal(this, 'cla-modal')">
+        <div class="item-background" style="background-image: url('images/CLA/CLA.jpg')"></div>
+        <div class="item-overlay">
+          <h3>Mercedes CLA 250+ EQ</h3>
+        </div>
+      </div>
+
+      <!-- Gathering Supercars -->
+      <div class="gallery-item" onclick="openModal(this, 'supercars-modal')">
+        <div class="item-background" style="background-image: url('images/Gathering/Ferrari.png')"></div>
+        <div class="item-overlay">
+          <h3>Gathering Supercars</h3>
+        </div>
+      </div>
+
+      <!-- Estoril I -->
+      <div class="gallery-item" onclick="openModal(this, 'estoril-modal')">
+        <div class="item-background" style="background-image: url('images/AMG GTR.png')"></div>
+        <div class="item-overlay">
+          <h3>Estoril Experience Day I</h3>
+        </div>
+      </div>
+
+      <!-- Estoril II -->
+      <div class="gallery-item" onclick="openModal(this, 'estoril2-modal')">
+        <div class="item-background" style="background-image: url('images/upcoming.png')"></div>
+        <div class="item-overlay">
+          <h3>Estoril Experience Day II</h3>
+        </div>
+      </div>
+    </main>
+
+    <!-- Rally Portugal Modal -->
+    <dialog id="rally-modal" class="detail-modal">
+      <div class="modal-header">
+        <h2>WRC Vodafone Rally Portugal 2026</h2>
+        <p class="subtitle">This was my first time at a Rally event. I loved the speed of these machines. The dirt flying through the air. The crowd roaring for action. Can't wait for next year.</p>
+        <button class="close-btn" onclick="this.closest('dialog').close()">&times;</button>
+      </div>
+      <div class="modal-gallery">
+        <img src="images/RallyPortugal/FafeJump.jpg" alt="Fafe's Jump" data-comment="Although not one of my most technical photos, this one impressed me due to how much i managed to capture." onclick="openPhoto(this)">
+        <img src="images/RallyPortugal/THEONEIMG_5479.JPG" alt="One of my favorites" data-comment="One of my favorite photos from this event." onclick="openPhoto(this)">
+        <img src="images/RallyPortugal/Felg-1.jpg" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/RallyPortugal/Felg.jpg" alt="" data-comment="" onclick="openPhoto(this)">
+      </div>
+    </dialog>
+
+    <!-- Mercedes CLA Modal -->
+    <dialog id="cla-modal" class="detail-modal">
+      <div class="modal-header">
+        <h2>Private Photoshoot - Mercedes CLA</h2>
+        <p class="subtitle">I was recently hired to shoot this beautiful Mercedes CLA.</p>
+        <button class="close-btn" onclick="this.closest('dialog').close()">&times;</button>
+      </div>
+      <div class="modal-gallery">
+        <img src="images/CLA/CLA.jpg" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/CLA/CLA2.jpg" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/CLA/CLA3.jpg" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/CLA/CLA4.png" alt="" data-comment="" onclick="openPhoto(this)">
+      </div>
+    </dialog>
+
+    <!-- Supercars Modal -->
+    <dialog id="supercars-modal" class="detail-modal">
+      <div class="modal-header">
+        <h2>Gathering Supercars 2026</h2>
+        <p class="subtitle">A spectacular gathering of exotic supercars.</p>
+        <button class="close-btn" onclick="this.closest('dialog').close()">&times;</button>
+      </div>
+      <div class="modal-gallery">
+        <img src="images/Gathering/Alpenglow.png" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/Gathering/BMWDrifting.png" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/Gathering/Ferrari.png" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/Gathering/GT3RS.png" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/Gathering/GTR.png" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/Gathering/Mustang-1.png" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/Gathering/SkylineIG.png" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/Gathering/laferrari.jpg" alt="" data-comment="" onclick="openPhoto(this)">
+      </div>
+    </dialog>
+
+    <!-- Estoril I Modal -->
+    <dialog id="estoril-modal" class="detail-modal">
+      <div class="modal-header">
+        <h2>Estoril Experience Day I</h2>
+        <p class="subtitle">My first track day. It was a lot of fun. I got to see all types of machines and attempted panning shots for the first time.</p>
+        <button class="close-btn" onclick="this.closest('dialog').close()">&times;</button>
+      </div>
+      <div class="modal-gallery">
+        <img src="images/Benz.png" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/AMG GTR.png" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/Alpine.png" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/BMW DOURADO.png" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/GT3 Rims.png" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/Ferrari Badge.png" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/Radical.png" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/EstorilCar.png" alt="" data-comment="" onclick="openPhoto(this)">
+        <img src="images/Vantage.png" alt="" data-comment="" onclick="openPhoto(this)">
+      </div>
+    </dialog>
+
+    <!-- Estoril II Modal -->
+    <dialog id="estoril2-modal" class="detail-modal">
+      <div class="modal-header">
+        <h2>Estoril Experience Day II</h2>
+        <p class="subtitle">This will be my second time attending this track. This time, armed with a CPL filter, I expect to fix some of the issues I found in my previous projects.</p>
+        <button class="close-btn" onclick="this.closest('dialog').close()">&times;</button>
+      </div>
+      <div class="modal-gallery">
+      </div>
+    </dialog>
+
+    <!-- Photo Viewer Modal -->
+    <dialog id="photo-viewer" class="photo-viewer-modal">
+      <button class="close-btn" onclick="document.getElementById('photo-viewer').close()">&times;</button>
+      <div class="photo-viewer-content">
+        <img id="viewer-img" src="" alt="">
+      </div>
+      <div class="photo-viewer-sidebar">
+        <h3 id="viewer-title">Photo Title</h3>
+        <p id="viewer-comment">Details appear here.</p>
+      </div>
+    </dialog>
+
+  </div>
+
+  <script src="redesign_navbar.js"></script>
+  <script>
+    function openModal(element, modalId) {
+      document.getElementById(modalId).showModal();
+    }
+
+    function openPhoto(element) {
+      const imgSrc = element.src;
+      const imgAlt = element.alt || "";
+      const imgComment = element.getAttribute('data-comment') || "";
+
+      document.getElementById('viewer-img').src = imgSrc;
+      document.getElementById('viewer-title').innerText = imgAlt;
+      document.getElementById('viewer-comment').innerText = imgComment;
+
+      if (imgAlt === "" && imgComment === "") {
+        document.getElementById('viewer-title').innerHTML = "";
+        document.getElementById('viewer-comment').innerHTML = "";
+      }
+
+      document.getElementById('photo-viewer').showModal();
+    }
+  </script>
+
+</body>
+
+</html>

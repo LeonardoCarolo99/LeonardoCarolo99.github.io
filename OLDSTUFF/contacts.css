@@ -1,0 +1,206 @@
+/* =======================================================
+   RESET & CONFIGURAÇÕES GERAIS
+   ======================================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Finlandica Headline', sans-serif;
+}
+
+body {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 120px 20px 40px 20px; /* Padding no topo dá espaço para a Navbar fixa */
+  overflow-x: hidden;
+}
+
+
+
+/* =======================================================
+   LAYOUT DOS CONTACTOS
+   ======================================================= */
+.contacts-container {
+  width: 100%;
+  max-width: 1100px;
+}
+
+.contacts-layout {
+  display: flex;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* Lado Esquerdo: Texto de Introdução */
+.info-panel {
+  flex: 45;
+  padding: 60px;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.info-panel .subtitle {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #ffd83e;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.info-panel h1 {
+  font-size: 40px;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.info-panel .description {
+  color: #ccc;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+.direct-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.card-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #666;
+}
+
+.card-value {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.card-value:hover {
+  color: #ffd83e;
+}
+
+/* =======================================================
+   LADO DIREITO: FORMULÁRIO DE CONTACTO
+   ======================================================= */
+.form-panel {
+  flex: 55;
+  padding: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.contact-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #aaa;
+}
+
+/* Inputs e Textarea Estilo Dark */
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 14px 16px;
+  color: #fff;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #ffd83e;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 10px rgba(255, 216, 62, 0.1);
+}
+
+/* Botão de Enviar Premium */
+.submit-btn {
+  background: #ffd83e;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+}
+
+/* =======================================================
+   RESPONSIVIDADE (Tablets e Telemóveis)
+   ======================================================= */
+@media (max-width: 850px) {
+  body {
+    padding-top: 100px;
+  }
+  
+  .main-navbar {
+    padding: 20px 30px;
+  }
+  
+  .contacts-layout {
+    flex-direction: column; /* Transforma o ecrã dividido em empilhamento vertical */
+  }
+  
+  .info-panel {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 40px 30px;
+  }
+  
+  .form-panel {
+    padding: 40px 30px;
+  }
+}

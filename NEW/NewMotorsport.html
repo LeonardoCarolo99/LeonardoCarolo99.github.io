@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motorsport Projects</title>
+    <link rel="stylesheet" href="NewMotorsport.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Finlandica+Headline:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="main-navbar">
+        <div class="logo">LEONARDO CARÔLO</div>
+        <nav class="nav-links">
+            <a href="types.html">Home</a>
+            <a href="about.html">About Me</a>
+            <a href="booking.html">Booking</a>
+            <a href="motorsport26.html" class="active">Motorsport</a>
+            <a href="contacts.html">Contacts</a>
+        </nav>
+    </header>
+
+    <!-- TOP BAR -->
+
+    <div class="header">
+        <a href="types.html" class="gohome">
+            <button class="button">
+                Return Home
+            </button>
+        </a>
+        <div class="seasons-bar">
+            <nav>
+                <h2 class="seasons-title">Motorsport Seasons</h2>
+                <a href="motorsport.html" class="active">2026</a>
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">2027</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- --------------- GALLERY SECTION --------------- -->
+    <!-- Research a way to automatize the addition of Gallery Items -->
+
+
+
+    <main class="gallery-container">
+
+        <!-- WRC RALLY PORTUGAL-->
+
+        <div class="gallery-item" onclick="document.getElementById('popup-rally').showModal()">
+            <img src="images/RallyPortugal/THEONEIMG_5479.JPG" alt="Cover Rally">
+            <div class="gallery-overlay">
+                <h3>WRC Rally Portugal</h3>
+            </div>
+        </div>
+        <dialog id="popup-rally" class="album-modal">
+
+            <div class="albumheader">
+                <h2>WRC Vodafone Rally Portugal 2026</h2>
+                <p class="subtitle">This was my first time at a Rally event. I loved the speed of these machines. The
+                    dirt flying through the air. The crowd roaring for action. Can't wait for next year.</p>
+                <button class="close-btn" onclick="this.closest('dialog').close()">&times;</button>
+            </div>
+            <div class="modal-content">
+
+                <div class="album-scroll-grid">
+                    <img src="images/RallyPortugal/FafeJump.jpg" alt="Fafe's Jump"
+                        data-comment="Although not one of my most technical photos, this one impressed me due to how much i managed to capture. The car, the helicoper, the photographers, the crowd. I feel it summarizes the event and its chaos pretty well."
+                        onclick="openPhotoViewer(this)">
+
+                    <img src="images/RallyPortugal/THEONEIMG_5479.JPG" alt=""
+                        data-comment="One of my favorite photos from this event. Nature's framing, the colors contrasts. I just love it."
+                        onclick="openPhotoViewer(this)">
+                    <img src="images/RallyPortugal/Felg-1.jpg" alt="" data-comment="" onclick="openPhotoViewer(this)">
+                    <img src="images/RallyPortugal/Felg.jpg" alt="" data-comment="" onclick="openPhotoViewer(this)">
+
+                </div>
+            </div>
+
+        </dialog>
+
+        <!-- CLA SHOOT -->
+
+        <div class="gallery-item" onclick="document.getElementById('popup-cla').showModal()">
+            <img src="images/CLA/CLA.jpg" alt="CLA">
+            <div class="gallery-overlay">
+                <h3>Mercedes CLA 250+ EQ</h3>
+            </div>
+        </div>
+        <dialog id="popup-cla" class="album-modal">
+            <div class="albumheader">
+                <h2>Private Photoshoot - Mercedes CLA</h2>
+                <p class="subtitle">I was recently commissioned to shoot this beautiful Mercedes CLA.</p>
+                <button class="close-btn" onclick="this.closest('dialog').close()">&times;</button>
+            </div>
+
+            <div class="modal-content">
+                <div class="album-scroll-grid">
+                    <img src="images/CLA/CLA.jpg" alt="" data-comment="" onclick="openPhotoViewer(this)">
+                    <img src="images/CLA/CLA2.jpg" alt="" data-comment="" onclick="openPhotoViewer(this)">
+                    <img src="images/CLA/CLA3.jpg" alt="" data-comment="" onclick="openPhotoViewer(this)">
+                </div>
+            </div>
+        </dialog>
+
+        <!-- GATHERING SUPERCARS -->
+
+        <div class="gallery-item" onclick="document.getElementById('popup-supercars').showModal()">
+            <img src="images/Gathering/Ferrari.png" alt="Gathering">
+            <div class="gallery-overlay">
+                <h3>Gathering Supercars 2026</h3>
+            </div>
+        </div>
+        <dialog id="popup-supercars" class="album-modal">
+            <div class="albumheader">
+                <h2>Gathering Supercars 2026</h2>
+                <p class="subtitle">Subtitle</p>
+                <button class="close-btn" onclick="this.closest('dialog').close()">&times;</button>
+            </div>
+
+            <div class="modal-content">
+                <h2></h2>
+                <p class="subtitle"></p>
+
+                <div class="album-scroll-grid">
+                    <img src="images/Gathering/Alpenglow.png" alt="" data-comment="" onclick="openPhotoViewer(this)">
+                    <img src="images/Gathering/BMWDrifting.png" alt="" data-comment="" onclick="openPhotoViewer(this)">
+                    <img src="images/Gathering/Ferrari.png" alt="" data-comment="" onclick="openPhotoViewer(this)">
+                    <img src="images/Gathering/GT3RS.png" alt="" data-comment="" onclick="openPhotoViewer(this)">
+                    <img src="images/Gathering/GTR.png" alt="" data-comment="" onclick="openPhotoViewer(this)">
+                    <img src="images/Gathering/Mustang-1.png" alt="" data-comment="" onclick="openPhotoViewer(this)">
+                    <img src="images/Gathering/SkylineIG.png" alt="" data-comment="" onclick="openPhotoViewer(this)">
+                    <img src="images/Gathering/laferrari.jpg" alt="" data-comment="" onclick="openPhotoViewer(this)">
+                </div>
+            </div>
+        </dialog>
+
+        <!-- ESTORIL -->
+
+        <div class="gallery-item" onclick="document.getElementById('popup-estoril').showModal()">
+            <img src="images/upcoming.png" alt="Estoril">
+            <div class="gallery-overlay">
+                <h3>Estoril Experience Day I</h3>
+            </div>
+        </div>
+        <dialog id="popup-estoril" class="album-modal">
+            <button class="close-btn" onclick="this.closest('dialog').close()">&times;</button>
+
+            <div class="modal-content">
+                <h2>Estoril Experience Day I</h2>
+                <p class="subtitle">My first track day. Can't wait for it.</p>
+
+                <div class="album-scroll-grid">
+                    <img src="images/upcoming.png" alt="Título da Foto 1"
+                        data-comment="O teu comentário para esta foto." onclick="openPhotoViewer(this)">
+                </div>
+            </div>
+        </dialog>
+
+
+
+        <dialog id="photo-viewer" class="photo-detail-modal">
+            <button class="close-btn" onclick="document.getElementById('photo-viewer').close()">&times;</button>
+
+            <div class="viewer-layout">
+                <div class="viewer-image-container">
+                    <img id="expanded-img" src="" alt="">
+                </div>
+                <div class="viewer-sidebar">
+                    <h3 id="expanded-title">Título da Foto</h3>
+                    <p id="expanded-comment">O comentário vai aparecer aqui dinamicamente.</p>
+                </div>
+            </div>
+        </dialog>
+
+
+
+    </main>
+    </div>
+
+
+
+    <script>
+        function openPhotoViewer(element) {
+            var imgSrc = element.src;
+            var imgAlt = element.alt || "";
+            var imgComment = element.getAttribute('data-comment') || "";
+
+            // Injeta os textos (se não existirem, ficam vazios "")
+            document.getElementById('expanded-img').src = imgSrc;
+
+            var titleElem = document.getElementById('expanded-title');
+            var commentElem = document.getElementById('expanded-comment');
+
+            titleElem.innerText = imgAlt;
+            commentElem.innerText = imgComment;
+
+            // TRUQUE: Se ambos estiverem vazios, limpamos o HTML deles para ativar o CSS :empty
+            if (imgAlt === "" && imgComment === "") {
+                titleElem.innerHTML = "";
+                commentElem.innerHTML = "";
+            }
+
+            document.getElementById('photo-viewer').showModal();
+        }
+    </script>
+
+</body>
+
+</html>

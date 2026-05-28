@@ -1,0 +1,143 @@
+/* =======================================================
+   RESET & CONFIGURAÇÕES GERAIS
+   ======================================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Finlandica Headline', sans-serif;
+}
+
+body {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Espaço para a Navbar fixa no topo */
+  padding: 120px 20px 40px 20px; 
+  overflow-x: hidden;
+}
+
+
+
+/* =======================================================
+   CONTEÚDO DO ABOUT ME
+   ======================================================= */
+.about-container {
+  width: 80%;
+  height: 80%;
+}
+
+.about-content {
+  display: flex;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+.about-image {
+  flex: 45;
+  background: #000;
+  min-height: 550px;
+}
+
+.about-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0.9;
+}
+
+.about-text {
+  flex: 55;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.about-text .subtitle {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #ffd83e;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.about-text h1 {
+  font-size: 48px;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin-bottom: 5px;
+}
+
+.about-text .role {
+  font-size: 18px;
+  color: #888;
+  margin-bottom: 30px;
+}
+
+.bio-paragraphs p {
+  color: #ccc;
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.about-socials {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.social-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 4px;
+}
+
+.social-link:hover {
+  opacity: 1;
+  color: #ffd83e;
+  border-bottom: 1px solid #ffd83e;
+}
+
+/* =======================================================
+   RESPONSIVIDADE
+   ======================================================= */
+@media (max-width: 850px) {
+  body {
+    padding-top: 90px;
+  }
+
+  .main-navbar {
+    padding: 20px 30px;
+  }
+
+  .about-content {
+    flex-direction: column;
+  }
+
+  .about-image {
+    min-height: 350px;
+  }
+
+  .about-text {
+    padding: 40px 30px;
+  }
+}

@@ -1,0 +1,502 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Finlandica Headline', sans-serif;
+}
+
+/* Garante que a base do site é escura e não deixa o branco do browser aparecer */
+html, body {
+  background-color: #1a1a1a;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  /* Remove qualquer scroll horizontal parasita que crie barras brancas */
+  overflow-x: hidden; 
+}
+
+/* BARRA DE NAVEGAÇÃO GLOBAL */
+.main-navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 60px;
+  z-index: 100;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+}
+
+.main-navbar .logo {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.main-navbar .nav-links {
+  display: flex;
+  gap: 40px;
+}
+
+.main-navbar .nav-links a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+}
+
+.main-navbar .nav-links a:hover {
+  opacity: 1;
+  color: #ffd83e;
+}
+
+.main-navbar .nav-links a.active {
+  opacity: 1;
+  color: #ffd83e;
+  border-bottom: 2px solid #ffd83e;
+  pointer-events: none;
+}
+
+.header {
+    display: flex;
+    align-items: center;            /* Keeps everything vertically centered */
+    width: 100%;
+    background-color: #1a1a1a;
+    padding: 20px 40px;
+    box-sizing: border-box;
+    position: relative;             /* CRITICAL: Acts as an anchor for centering */
+    background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+}
+
+/* =======================================================
+   A BARRA DE NAVEGAÇÃO 
+   ======================================================= */
+
+
+/* FADE DA BARRA */
+.seasons-bar {
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    border-radius: 0 0 16px 16px;  
+    min-width: 400px;   
+
+    /* NEW STYLES TO FORCE CENTER ALIGNMENT */
+    position: absolute;             /* Detaches it from the button's layout flow */
+    left: 50%;                      /* Pushes the left edge to the exact middle of the screen */
+    transform: translateX(-50%);    /* Shifts it back by half its own width for perfect centering */
+}
+
+/* MOTORSPORT SEASONS TITLE */
+.seasons-title {
+  color: #ffffff;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  opacity: 0.5;
+  font-weight: 400;
+  align-self: center;
+}
+
+/* BARRA DOS ANOS */
+nav {
+  display: flex;
+  gap: 40px;
+}
+
+/* COR BASE DOS ANOS */
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 32px;
+  font-weight: bold;
+  font-style: italic; 
+  transition: all 0.3s ease;
+}
+
+/* HOVER NO ANO NÃO ATIVO */
+nav a:not(.active):hover {
+  color: #ffd83e;
+  transform: translateY(-3px);
+}
+
+/* ANO ATUAL */
+nav a.active {
+  color: #ffd83e;         /* Pinta o ano atual com o vermelho motorsport */
+  opacity: 1;
+  cursor: default;        /* Remove o rato de clique para o utilizador saber que já está aí */
+  pointer-events: none;   /* Desativa o clique no próprio ano */
+  text-shadow: 0px 0px 10px rgba(255, 181, 62, 0.4); /* Dá um brilho vermelho agressivo */
+}
+
+
+/* =======================================================
+    BACKBUTTON - From Uiverse.io by McHaXYT
+   ======================================================= */
+
+
+.button {
+  padding: 15px 20px;
+  border: none;
+  outline: none;
+  background-color: #e2c339;
+  color: #5b5b5b;
+  border-radius: 7px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease-out;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+}
+
+.button-span {
+  color: #0e0e0e;
+}
+
+
+/* =======================================================
+   GALERIAS
+   ======================================================= */
+
+/* O Contentor da Galeria */
+.gallery-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 30px;
+}
+
+/*  Projetos */
+.gallery-item {
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+  border-radius: 8px;
+  position: relative;     /* CRUCIAL: Serve de "âncora" para o texto não fugir da caixa */
+  background-color: #000; /* Fundo preto puro ajuda no efeito de escurecer */
+  cursor: pointer;
+}
+
+/* Capa dos projetos */
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: all 0.4s ease; /* Transição suave para o zoom e opacidade */
+}
+
+/* Overlay Projetos */
+.gallery-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Camada preta com 60% de opacidade */
+  /* Centra o texto perfeitamente a meio da imagem */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Esconde a camada inicialmente */
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+/* Texto do Álbum */
+.gallery-overlay h3 {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-style: italic; /* Mantém o DNA agressivo de motorsport */
+  
+  /* Pequena animação: o texto sobe ligeiramente quando aparece */
+  transform: translateY(20px);
+  transition: all 0.4s ease;
+}
+
+
+/* ZOOM AND DARKEN */
+.gallery-item:hover img {
+  transform: scale(1.05);
+  opacity: 0.6; /* Deixa o fundo preto da caixa "espreitar", escurecendo a foto */
+}
+
+/* HOVER */
+
+.gallery-item:hover .gallery-overlay {
+  opacity: 1;
+}
+
+/* TEXT RETURN TO POSITION */
+.gallery-item:hover .gallery-overlay h3 {
+  transform: translateY(0);
+}
+
+
+/* =======================================================
+   ALBUMS
+   ======================================================= */
+
+/* Estilo do Pop-up */
+.album-modal {
+  width: 90%;
+  max-width: 1000px;
+  height: 85vh;            /* Ocupa 85% da altura do ecrã */
+  background: #111111;     /* Fundo escuro do pop-up */
+  border: 1px solid #333;
+  border-radius: 16px;
+
+  margin: auto;            /* Centra perfeitamente no ecrã */
+  color: white;
+  overflow-y: auto; 
+  overflow-x: hidden;    
+  /* FIX 1: CHANGE THIS TO ZERO */
+  padding: 0; /* Strips the transparent top/bottom zones where images leak */
+}  
+       
+/* Estilo do Cabeçalho do álbum */
+.albumheader {
+  position: sticky;
+  top: 0;
+  background-color: #111111; 
+
+/* FIX 1: Ensures the header sits firmly on top of the scrolling images */
+  z-index: 10;               
+  padding: 40px 40px 30px 40px;
+  /* FIX 2: Creates a sharp visual cutoff right at the bottom edge of the header */
+  overflow: hidden;            
+}
+
+/* O "backdrop" é o fundo do site que fica por trás do pop-up */
+.album-modal::backdrop {
+  background: rgba(0, 0, 0, 0.85); /* Escurece o site original a 85% */
+  backdrop-filter: blur(8px);     /* Dá aquele efeito desfocado premium no fundo */
+}
+
+/* =======================================================
+   CUSTOM SCROLLBAR PARA O POP-UP
+   ======================================================= */
+
+/* 1. Define a largura da barra de scroll (vertical) */
+.album-modal::-webkit-scrollbar {
+  width: 8px; /* Deixa-a fina e elegante */
+}
+
+/* 2. O fundo da calha por onde a barra desliza */
+.album-modal::-webkit-scrollbar-track {
+  background: #111111; /* Igual ao fundo do teu pop-up para ficar invisível */
+  border-radius: 0 16px 16px 0; /* Alinha os cantos arredondados com a borda do pop-up */
+}
+
+/* 3. O "pino" (a barra que tu arrastas com o rato) */
+.album-modal::-webkit-scrollbar-thumb {
+  background: #333333; /* Cinza escuro discreto */
+  border-radius: 4px;   /* Cantos arredondados no pino */
+  border: 2px solid #111111; /* Cria uma margem invisível à volta para respirar */
+}
+
+/* 4. O efeito quando passas o rato ou arrastas a barra */
+.album-modal::-webkit-scrollbar-thumb:hover {
+  background: #ffc83e; /* Fica vermelha com o tom do teu motorsport ao interagir! */
+}
+
+
+
+/* =======================================================
+   TITLES AND COMMENTS
+   ======================================================= */
+
+/* Títulos dentro do Pop-up */
+
+.modal-content {
+  padding: 0 40px 40px 40px; 
+
+  /* NEW FIX: This creates a strict boundary box for your grid. 
+     Anything that attempts to scale or bleed past this box will instantly clip! */
+  overflow: hidden;          
+}
+.modal-content h2 { 
+  font-size: 28px; 
+  text-transform: uppercase; 
+  font-style: italic; 
+}
+
+.modal-content .subtitle { 
+  color: #888; margin-bottom: 30px; 
+  margin-top:20px
+}
+
+/* A GRELA DE FOTOS INTERNA DO ÁLBUM (Look Masonry / Pinterest) */
+.album-scroll-grid {
+  column-count: 2;        
+  column-gap: 20px;       
+  width: 100%;
+
+  /* NEW FIX: Forces the masonry grid engine to compute limits strictly */
+  overflow: hidden;       
+}
+
+/* As fotos de dentro do álbum */
+.album-scroll-grid img {
+  width: 100%;
+  height: auto;           
+  display: block;
+  break-inside: avoid;    
+  margin-bottom: 20px;    
+  border-radius: 8px;
+  cursor: zoom-in;
+  transition: transform 0.2s ease;
+
+  /* Force the browser to respect the layout container boundaries while rendering */
+  will-change: transform; 
+}
+
+/* Mantém o teu efeito de zoom premium no hover */
+.album-scroll-grid img:hover {
+  transform: scale(1.02);
+}
+
+.photo-detail-modal {
+  width: 90%;               /* Expandimos a largura máxima para dar margem */
+  max-width: 1200px;
+  height: 90vh;             /* AUMENTADO: Passa a ocupar 90% da altura do ecrã */
+  background: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 0;
+  margin: auto;
+  overflow: hidden;
+}
+
+/* Quando o visualizador está aberto */
+.photo-detail-modal[open] {
+  display: flex; 
+}
+
+/* Garante que este pop-up fica ainda mais escuro por trás */
+.photo-detail-modal::backdrop {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+/* Layout adaptável */
+/* Alinhamento interno do layout */
+.viewer-layout {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* O contentor da imagem força o centro absoluto */
+.viewer-image-container {
+  flex: 1;
+  height: 100%;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* A barra lateral do texto */
+.viewer-sidebar {
+  width: 350px;     /* Damos uma largura fixa ideal para a leitura do texto */
+  padding: 40px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 1px solid #222;
+  background: #111;
+  transition: all 0.3s ease;
+}
+
+/* =======================================================
+   CLOSE BUTTON
+   ======================================================= */
+
+
+/* 3. O BOTÃO DE FECHAR (X) REVOLUCIONADO */
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  background: none;
+  border: none;       /* Remove qualquer borda que crie o quadrado */
+  outline: none;      /* Remove o quadrado de seleção azul/preto do navegador */
+  color: #fff;
+  font-size: 36px;
+  cursor: pointer;
+  opacity: 0.6;
+  z-index: 15;        /* Garante que fica sempre acima do scroll das fotos */
+  
+  /* Prepara o botão para a transformação suave (tamanho e rotação) */
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease, color 0.3s ease;
+}
+
+/* EFEITO HOVER DO X: Roda 90º e cresce */
+.close-btn:hover {
+  opacity: 1;
+  color: #ff3e3e;
+  /* scale(1.2) aumenta em 20% e rotate(90deg) faz a rotação perfeita */
+  transform: scale(1.2) rotate(90deg);
+}
+
+/* Garante que o quadrado também não aparece quando clicas no botão */
+.close-btn:focus {
+  outline: none;
+  background: none;
+}
+
+/* =======================================================
+   VARIABLE LAYOUT DEPENDING ON IF THERE'S COMMENTS
+   ======================================================= */
+
+/* Se o título E o comentário estiverem vazios, escondemos a barra lateral por completo */
+.viewer-sidebar:has(#expanded-title:empty):has(#expanded-comment:empty) {
+  display: none;
+}
+
+/* A CORREÇÃO DE OURO PARA A IMAGEM */
+.viewer-image-container img {
+  width: auto;              /* Liberta a largura para não esmagar */
+  height: 100%;             /* Força a foto a esticar-se do topo até ao fundo do pop-up */
+  max-width: 100%;          /* Impede que fotos horizontais gigantes saiam fora da caixa */
+  object-fit: contain;      /* Garante que vês o enquadramento original sem cortes */
+  display: block;
+}
+
+.viewer-sidebar h3 {
+  font-size: 22px;
+  text-transform: uppercase;
+  font-style: italic;
+  color: #ff3e3e; /* Vermelho motorsport para o título da foto */
+  margin-bottom: 15px;
+}
+
+.viewer-sidebar p {
+  color: #ccc;
+  font-size: 16px;
+  line-height: 1.6;
+}
+

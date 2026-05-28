@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Astrophotography</title>
+  <link rel="stylesheet" href="astro.css">
+</head>
+
+<body>
+  <div class="header">
+    <a href="types.html" class="gohome">
+      <button class="button">
+        Return Home
+      </button>
+    </a>
+  </div>
+
+  <main class="astro-container">
+    <div class="astro-header">
+      <h1>Astrophotography</h1>
+      <p class="astro-subtitle">Capturing the cosmos and celestial wonders through the lens.</p>
+    </div>
+
+    <div class="gallery-grid">
+      <div class="gallery-item" onclick="openPhotoViewer(this)">
+        <img src="images/upcoming.png" alt="Starry Night">
+        <div class="gallery-overlay">
+          <h3>Coming Soon</h3>
+        </div>
+      </div>
+    </div>
+
+    <dialog id="photo-viewer" class="photo-detail-modal">
+      <button class="close-btn" onclick="document.getElementById('photo-viewer').close()">&times;</button>
+
+      <div class="viewer-layout">
+        <div class="viewer-image-container">
+          <img id="expanded-img" src="" alt="">
+        </div>
+        <div class="viewer-sidebar">
+          <h3 id="expanded-title">Photo Title</h3>
+          <p id="expanded-comment">Photo details will appear here.</p>
+        </div>
+      </div>
+    </dialog>
+
+  </main>
+
+  <script>
+    function openPhotoViewer(element) {
+      var imgElement = element.querySelector('img');
+      var imgSrc = imgElement.src;
+      var imgAlt = imgElement.alt || "";
+      var imgComment = imgElement.getAttribute('data-comment') || "";
+
+      document.getElementById('expanded-img').src = imgSrc;
+
+      var titleElem = document.getElementById('expanded-title');
+      var commentElem = document.getElementById('expanded-comment');
+
+      titleElem.innerText = imgAlt;
+      commentElem.innerText = imgComment;
+
+      if (imgAlt === "" && imgComment === "") {
+        titleElem.innerHTML = "";
+        commentElem.innerHTML = "";
+      }
+
+      document.getElementById('photo-viewer').showModal();
+    }
+  </script>
+
+</body>
+
+</html>

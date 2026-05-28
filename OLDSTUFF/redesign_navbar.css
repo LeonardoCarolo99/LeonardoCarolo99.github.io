@@ -1,0 +1,103 @@
+/* =======================================================
+   GLOBAL NAVBAR - SHARED ACROSS ALL REDESIGNED PAGES
+   ======================================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Finlandica Headline', sans-serif;
+}
+
+.main-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 60px;
+  z-index: 1000;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+  box-sizing: border-box;
+  backdrop-filter: blur(8px);
+}
+
+.main-navbar .logo {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+}
+
+.main-navbar .nav-links {
+  display: flex;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.main-navbar .nav-links a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  margin: 0;
+}
+
+.main-navbar .nav-links a:hover {
+  opacity: 1;
+  color: #ffd83e;
+  border-bottom-color: #ffd83e;
+}
+
+.main-navbar .nav-links a.active {
+  opacity: 1;
+  color: #ffd83e;
+  border-bottom: 2px solid #ffd83e;
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 850px) {
+  .main-navbar {
+    padding: 20px 30px;
+  }
+
+  .main-navbar .logo {
+    font-size: 18px;
+  }
+
+  .main-navbar .nav-links {
+    gap: 20px;
+  }
+
+  .main-navbar .nav-links a {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-navbar {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .main-navbar .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+}

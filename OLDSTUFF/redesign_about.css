@@ -1,0 +1,187 @@
+/* =======================================================
+   ABOUT PAGE STYLES
+   ======================================================= */
+
+body {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding-top: 80px;
+}
+
+.about-container {
+  width: 100%;
+}
+
+/* =======================================================
+   HERO SECTION
+   ======================================================= */
+
+.about-hero {
+  text-align: center;
+  padding: 80px 20px 60px;
+  background: linear-gradient(135deg, rgba(255, 216, 62, 0.05) 0%, rgba(255, 216, 62, 0) 100%);
+}
+
+.hero-label {
+  display: block;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #ffd83e;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.hero-title {
+  font-size: 56px;
+  font-style: italic;
+  text-transform: uppercase;
+  font-weight: bold;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.hero-description {
+  font-size: 18px;
+  color: #ccc;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* =======================================================
+   ABOUT CONTENT
+   ======================================================= */
+
+.about-content {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto 80px;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+.about-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 45px;
+  transition: all 0.3s ease;
+}
+
+.about-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 216, 62, 0.2);
+  transform: translateY(-5px);
+}
+
+.about-card h2 {
+  font-size: 28px;
+  color: #ffd83e;
+  font-style: italic;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.about-card p {
+  font-size: 16px;
+  color: #ccc;
+  line-height: 1.8;
+  margin-bottom: 15px;
+}
+
+.about-card p:last-child {
+  margin-bottom: 0;
+}
+
+/* =======================================================
+   SERVICES LIST
+   ======================================================= */
+
+.services-list {
+  list-style: none;
+  padding: 0;
+}
+
+.services-list li {
+  font-size: 16px;
+  color: #bbb;
+  line-height: 2;
+  padding-left: 30px;
+  position: relative;
+}
+
+.services-list li:before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #ffd83e;
+  font-weight: bold;
+}
+
+/* =======================================================
+   RESPONSIVE DESIGN
+   ======================================================= */
+
+@media (max-width: 850px) {
+  .hero-title {
+    font-size: 42px;
+  }
+
+  .hero-description {
+    font-size: 16px;
+  }
+
+  .about-card {
+    padding: 35px;
+  }
+
+  .about-card h2 {
+    font-size: 24px;
+  }
+
+  .about-card p {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-hero {
+    padding: 60px 20px 40px;
+  }
+
+  .hero-title {
+    font-size: 32px;
+  }
+
+  .hero-description {
+    font-size: 15px;
+  }
+
+  .about-content {
+    margin-bottom: 60px;
+  }
+
+  .about-card {
+    padding: 25px;
+  }
+
+  .about-card h2 {
+    font-size: 22px;
+  }
+
+  .about-card p {
+    font-size: 14px;
+  }
+
+  .services-list li {
+    font-size: 14px;
+  }
+}

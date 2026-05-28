@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Photoshoot - Leonardo Carôlo</title>
+    <link rel="stylesheet" href="booking.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Finlandica+Headline:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div id="navbar-container"></div>
+
+  <div class="booking-container">
+    <main class="booking-layout">
+      
+      <section class="booking-info">
+        <span class="subtitle">Private Photoshoot</span>
+        <h1>Book Your Car Photoshoot</h1>
+        <p class="description">
+          Capture the beauty, power, and soul of your vehicle with professional automotive photography. Whether it's a track day, classic car, or your pride and joy, let's create stunning imagery together.
+        </p>
+        
+        <div class="package-cards">
+          <div class="package">
+            <h3>Standard</h3>
+            <p class="price">Starting at $299</p>
+            <ul>
+              <li>2 Hours Session</li>
+              <li>30+ Edited Photos</li>
+              <li>Digital Gallery</li>
+              <li>1 Location</li>
+            </ul>
+          </div>
+          
+          <div class="package">
+            <h3>Premium</h3>
+            <p class="price">Starting at $599</p>
+            <ul>
+              <li>4 Hours Session</li>
+              <li>75+ Edited Photos</li>
+              <li>Digital Gallery</li>
+              <li>2 Locations</li>
+              <li>Drone Shots</li>
+            </ul>
+          </div>
+          
+          <div class="package">
+            <h3>Luxury</h3>
+            <p class="price">Starting at $999</p>
+            <ul>
+              <li>Full Day Session</li>
+              <li>150+ Edited Photos</li>
+              <li>Digital Gallery</li>
+              <li>Unlimited Locations</li>
+              <li>Drone Shots</li>
+              <li>Video Teaser</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="booking-form-section">
+        <form action="#" method="POST" class="booking-form">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required placeholder="Your name">
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required placeholder="your@email.com">
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 123-4567">
+          </div>
+
+          <div class="form-group">
+            <label for="vehicle">Vehicle Details</label>
+            <input type="text" id="vehicle" name="vehicle" required placeholder="Make, Model, Year (e.g., Porsche 911 Carrera 2020)">
+          </div>
+
+          <div class="form-group">
+            <label for="package">Select Package</label>
+            <select id="package" name="package" required>
+              <option value="">-- Choose a package --</option>
+              <option value="standard">Standard ($299)</option>
+              <option value="premium">Premium ($599)</option>
+              <option value="luxury">Luxury ($999)</option>
+              <option value="custom">Custom Package</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="date">Preferred Date</label>
+            <input type="date" id="date" name="date" required>
+          </div>
+
+          <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" id="location" name="location" required placeholder="City, venue, or GPS coordinates">
+          </div>
+
+          <div class="form-group">
+            <label for="special">Special Requests</label>
+            <textarea id="special" name="special" rows="4" placeholder="Any specific shots, themes, or requirements?"></textarea>
+          </div>
+
+          <div class="form-group checkbox-group">
+            <input type="checkbox" id="terms" name="terms" required>
+            <label for="terms" class="checkbox-label">I agree to the terms and conditions</label>
+          </div>
+          
+          <button type="submit" class="submit-btn">Request Booking</button>
+        </form>
+      </section>
+
+    </main>
+  </div>
+
+
+  <script src="navbar.js"></script>
+</body>
+</html>

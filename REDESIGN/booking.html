@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Shoot - Leonardo Carôlo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Finlandica+Headline:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="navbar.css">
+  <link rel="stylesheet" href="booking.css">
+</head>
+
+<body>
+  <div id="navbar-container"></div>
+
+  <div class="booking-container">
+    <main class="booking-layout">
+      
+      <section class="booking-info">
+        <span class="subtitle">Private Photoshoot</span>
+        <h1>Book Your Photoshoot</h1>
+        <p class="description">
+          Capture stunning moments with professional photography. Whether it's automotive or motorsport, let's create something extraordinary together.
+        </p>
+        <!---
+        <div class="package-cards">
+          <div class="package">
+            <h3>Standard</h3>
+            <p class="price">Starting at $299</p>
+            <ul>
+              <li>2 Hours Session</li>
+              <li>30+ Edited Photos</li>
+              <li>Digital Gallery</li>
+              <li>1 Location</li>
+            </ul>
+          </div>
+          
+          <div class="package">
+            <h3>Premium</h3>
+            <p class="price">Starting at $599</p>
+            <ul>
+              <li>4 Hours Session</li>
+              <li>75+ Edited Photos</li>
+              <li>Digital Gallery</li>
+              <li>2 Locations</li>
+              <li>Drone Shots</li>
+            </ul>
+          </div>
+          
+          <div class="package">
+            <h3>Luxury</h3>
+            <p class="price">Starting at $999</p>
+            <ul>
+              <li>Full Day Session</li>
+              <li>150+ Edited Photos</li>
+              <li>Digital Gallery</li>
+              <li>Unlimited Locations</li>
+              <li>Drone Shots</li>
+              <li>Video Teaser</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      --->
+      <section class="booking-form-section">
+        <form action="#" method="POST" class="booking-form">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required placeholder="Your name">
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required placeholder="your@email.com">
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 123-4567">
+          </div>
+
+          <div class="form-group">
+            <label for="service">Photography Service</label>
+            <select id="service" name="service" required>
+              <option value="">-- Choose a service --</option>
+              <option value="automotive">Private Automotive Photography</option>
+              <option value="motorsport">Motorsport Coverage</option>
+              <option value="custom">Custom Service</option>
+            </select>
+          </div>
+          <!---
+          <div class="form-group">
+            <label for="package">Select Package</label>
+            <select id="package" name="package" required>
+              <option value="">-- Choose a package --</option>
+              <option value="standard">Standard ($299)</option>
+              <option value="premium">Premium ($599)</option>
+              <option value="luxury">Luxury ($999)</option>
+              <option value="custom">Custom Package</option>
+            </select>
+          </div>
+          -->
+          <div class="form-group">
+            <label for="date">Preferred Date</label>
+            <input type="date" id="date" name="date" required>
+          </div>
+
+          <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" id="location" name="location" required placeholder="City, venue, or specific location">
+          </div>
+
+          <div class="form-group">
+            <label for="details">Project Details</label>
+            <textarea id="details" name="details" rows="4" placeholder="Describe your project, specific shots, themes, or any special requirements..."></textarea>
+          </div>
+          <h4 class="disclaimer">* This form is for booking inquiries only. I will get back to you within 48 hours to discuss your project and confirm details.</h4>
+          <button type="submit" class="submit-btn">Request Booking</button>
+        </form>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="navbar.js"></script>
+</body>
+
+</html>

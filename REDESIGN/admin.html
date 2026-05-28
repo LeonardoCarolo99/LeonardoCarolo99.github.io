@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Leonardo Carôlo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Finlandica+Headline:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1a1a1a;
+      color: #fff;
+      padding: 40px 20px;
+    }
+
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .admin-header {
+      margin-bottom: 40px;
+    }
+
+    .admin-header h1 {
+      font-size: 32px;
+      font-style: italic;
+      margin-bottom: 10px;
+      color: #ffd83e;
+      font-family: 'Finlandica Headline', sans-serif;
+    }
+
+    .admin-header p {
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .tab-btn {
+      padding: 15px 30px;
+      background: none;
+      border: none;
+      color: #aaa;
+      font-size: 16px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active {
+      color: #ffd83e;
+      border-bottom-color: #ffd83e;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .add-project-form {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px dashed rgba(255, 216, 62, 0.3);
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+    }
+
+    .add-project-form h3 {
+      color: #ffd83e;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    .form-group input, .form-group textarea {
+      background: #2a2a2a;
+      border: 1px solid #444;
+      padding: 10px;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
+      border-color: #ffd83e;
+      outline: none;
+    }
+
+    .add-btn {
+      background: #4caf50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .add-btn:hover {
+      background: #45a049;
+    }
+
+    .projects-list {
+      display: grid;
+      gap: 15px;
+    }
+
+    .project-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .project-main-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      cursor: grab;
+      width: 100%;
+    }
+
+    .project-item.dragging {
+      opacity: 0.5;
+    }
+
+    .project-item.drag-over {
+      border-color: #ffd83e;
+      background: rgba(255, 208, 62, 0.1);
+    }
+
+    .project-thumbnail {
+      width: 80px;
+      height: 80px;
+      border-radius: 6px;
+      background-size: cover;
+      background-position: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      flex-shrink: 0;
+    }
+
+    .project-info {
+      flex: 1;
+    }
+
+    .project-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #ffd83e;
+    }
+
+    .project-display {
+      font-size: 13px;
+      color: #aaa;
+    }
+
+    .project-order {
+      font-size: 12px;
+      color: #666;
+      min-width: 30px;
+      text-align: center;
+    }
+
+    .action-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .toggle-photos-btn {
+      background: #2a2a2a;
+      color: #fff;
+      border: 1px solid #444;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .toggle-photos-btn:hover {
+      border-color: #ffd83e;
+      color: #ffd83e;
+    }
+
+    .delete-btn {
+      background: rgba(244, 67, 54, 0.1);
+      color: #f44336;
+      border: 1px solid rgba(244, 67, 54, 0.3);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all 0.2s;
+    }
+
+    .delete-btn:hover {
+      background: #f44336;
+      color: white;
+    }
+
+    /* Photos Management Drawer Section */
+    .photos-drawer {
+      display: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 15px;
+      margin-top: 5px;
+    }
+
+    .photos-drawer.open {
+      display: block;
+    }
+
+    .inner-photos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .photo-editor-card {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      padding: 10px;
+      display: flex;
+      gap: 10px;
+      position: relative;
+    }
+
+    .photo-editor-preview {
+      width: 70px;
+      height: 70px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 4px;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .photo-editor-inputs {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .photo-editor-inputs input {
+      background: #111;
+      border: 1px solid #333;
+      color: #fff;
+      font-size: 12px;
+      padding: 4px 6px;
+      border-radius: 3px;
+      width: 100%;
+    }
+
+    .photo-editor-inputs input:focus {
+      border-color: #ffd83e;
+      outline: none;
+    }
+
+    .remove-photo-btn {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #f44336;
+      color: white;
+      border: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .inline-add-photo {
+      background: rgba(255, 216, 62, 0.03);
+      border: 1px dashed rgba(255, 216, 62, 0.2);
+      border-radius: 6px;
+      padding: 15px;
+    }
+
+    .inline-add-photo h4 {
+      font-size: 13px;
+      color: #ffd83e;
+      margin-bottom: 10px;
+    }
+
+    .save-btn {
+      background: #ffd83e;
+      color: #1a1a1a;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 30px;
+      width: 100%;
+    }
+
+    .save-btn:hover {
+      background: #ffe54d;
+      transform: translateY(-2px);
+    }
+
+    .status-message {
+      padding: 12px 20px;
+      border-radius: 6px;
+      margin-top: 20px;
+      display: none;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .status-message.success {
+      background: rgba(76, 175, 80, 0.2);
+      color: #4caf50;
+      display: block;
+    }
+
+    .status-message.error {
+      background: rgba(244, 67, 54, 0.2);
+      color: #f44336;
+      display: block;
+    }
+
+    .drag-hint {
+      color: #666;
+      font-size: 12px;
+      margin-top: 20px;
+      text-align: center;
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="admin-container">
+    <div class="admin-header">
+      <h1>Gallery Admin</h1>
+      <p>Manage your photography projects • Reorder entries, change descriptions, or edit individual gallery photo files.</p>
+    </div>
+
+    <div class="tabs">
+      <button id="tab-btn-motorsport" class="tab-btn active" onclick="switchTab('motorsport')">Motorsport</button>
+      <button id="tab-btn-astro" class="tab-btn" onclick="switchTab('astro')">Astrophotography</button>
+    </div>
+
+    <div class="add-project-form">
+      <h3 id="form-title">Add New Project to Motorsport</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Unique ID (e.g. rally-modal)</label>
+          <input type="text" id="new-proj-id" placeholder="unique-id-modal">
+        </div>
+        <div class="form-group">
+          <label>Display Card Title</label>
+          <input type="text" id="new-proj-display-title" placeholder="Short Title for Grid">
+        </div>
+        <div class="form-group">
+          <label>Full Modal Title</label>
+          <input type="text" id="new-proj-title" placeholder="Full Event Name Title">
+        </div>
+        <div class="form-group">
+          <label>Cover/Display Image URL</label>
+          <input type="text" id="new-proj-img" placeholder="../images/upcoming.png">
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom: 15px;">
+        <label>Subtitle / Description</label>
+        <textarea id="new-proj-subtitle" rows="2" placeholder="Describe the experience..."></textarea>
+      </div>
+      <button class="add-btn" onclick="addProject()">Create Project Card</button>
+    </div>
+
+    <div id="motorsport" class="tab-content active">
+      <div class="projects-list" id="motorsport-list"></div>
+      <button class="save-btn" onclick="saveProjects('motorsport')">Save Changes (Download JSON)</button>
+      <div class="status-message" id="motorsport-status"></div>
+      <div class="drag-hint">💡 Drag projects by their headers to reorder them</div>
+    </div>
+
+    <div id="astro" class="tab-content">
+      <div class="projects-list" id="astro-list"></div>
+      <button class="save-btn" onclick="saveProjects('astro')">Save Changes (Download JSON)</button>
+      <div class="status-message" id="astro-status"></div>
+      <div class="drag-hint">💡 Drag projects by their headers to reorder them</div>
+    </div>
+  </div>
+
+  <script>
+    let motorsportProjects = [];
+    let astroProjects = [];
+    let currentGallery = 'motorsport';
+    let draggedItem = null;
+
+    async function loadProjects() {
+      try {
+        motorsportProjects = await fetch('projects-motorsport.json').then(r => r.ok ? r.json() : []);
+        renderProjects('motorsport');
+      } catch (e) { console.warn('Could not read projects-motorsport.json'); }
+
+      try {
+        astroProjects = await fetch('projects-astro.json').then(r => r.ok ? r.json() : []);
+        renderProjects('astro');
+      } catch (e) { console.warn('Could not read projects-astro.json'); }
+    }
+
+    function renderProjects(gallery) {
+      const projects = gallery === 'motorsport' ? motorsportProjects : astroProjects;
+      const list = document.getElementById(`${gallery}-list`);
+      if (!list) return;
+
+      list.innerHTML = projects.map((project, pIndex) => {
+        const images = project.images || [];
+        
+        // Generate HTML sub-cards for every photo currently in the project
+        const photosHTML = images.map((img, iIndex) => `
+          <div class="photo-editor-card">
+            <div class="photo-editor-preview" style="background-image: url('${img.src}')"></div>
+            <div class="photo-editor-inputs">
+              <input type="text" value="${img.src}" placeholder="Image Path" onchange="updatePhotoData('${gallery}', ${pIndex}, ${iIndex}, 'src', this.value)">
+              <input type="text" value="${img.alt || ''}" placeholder="Alt/Title text" onchange="updatePhotoData('${gallery}', ${pIndex}, ${iIndex}, 'alt', this.value)">
+              <input type="text" value="${img.comment || ''}" placeholder="Commentary/Caption text" onchange="updatePhotoData('${gallery}', ${pIndex}, ${iIndex}, 'comment', this.value)">
+            </div>
+            <button class="remove-photo-btn" onclick="removePhoto('${gallery}', ${pIndex}, ${iIndex})" title="Remove Photo">&times;</button>
+          </div>
+        `).join('');
+
+        return `
+          <div class="project-item" data-index="${pIndex}" 
+            ondragover="handleDragOver(event)"
+            ondrop="handleDrop(event, '${gallery}', ${pIndex})"
+            ondragleave="handleDragLeave(event)">
+            
+            <div class="project-main-row" draggable="true" ondragstart="handleDragStart(event, '${gallery}')">
+              <div class="project-order">#${pIndex + 1}</div>
+              <div class="project-thumbnail" style="background-image: url('${project.displayImage || '../images/upcoming.png'}')"></div>
+              <div class="project-info">
+                <div class="project-title">${project.displayTitle || project.title}</div>
+                <div class="project-display">${images.length} photos in album</div>
+              </div>
+              <div class="action-controls">
+                <button class="toggle-photos-btn" onclick="togglePhotosDrawer(${pIndex}, '${gallery}')">Manage Photos (${images.length})</button>
+                <button class="delete-btn" title="Delete Full Project" onclick="event.stopPropagation(); removeProject('${gallery}', ${pIndex})">&times;</button>
+              </div>
+            </div>
+
+            <div id="drawer-${gallery}-${pIndex}" class="photos-drawer">
+              <div class="inner-photos-grid">
+                ${photosHTML}
+              </div>
+              
+              <div class="inline-add-photo">
+                <h4>Add New Photo to Album</h4>
+                <div class="form-grid" style="grid-template-columns: 2fr 1fr 1fr auto; align-items: end; gap: 10px;">
+                  <div class="form-group">
+                    <label>Image Source Link</label>
+                    <input type="text" id="add-img-src-${gallery}-${pIndex}" placeholder="../images/Folder/photo.jpg">
+                  </div>
+                  <div class="form-group">
+                    <label>Alt/Title Text</label>
+                    <input type="text" id="add-img-alt-${gallery}-${pIndex}" placeholder="e.g. Turn 4 Drift">
+                  </div>
+                  <div class="form-group">
+                    <label>Caption Comment</label>
+                    <input type="text" id="add-img-comm-${gallery}-${pIndex}" placeholder="Short breakdown story...">
+                  </div>
+                  <button class="add-btn" style="padding: 8px 15px;" onclick="addPhotoToProject('${gallery}', ${pIndex})">Add Photo</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Toggle the drop down accordion visibility
+    function togglePhotosDrawer(index, gallery) {
+      const drawer = document.getElementById(`drawer-${gallery}-${index}`);
+      if(drawer) {
+        drawer.classList.toggle('open');
+      }
+    }
+
+    // Live update modified details into data array arrays
+    function updatePhotoData(gallery, projIndex, photoIndex, field, value) {
+      const projects = gallery === 'motorsport' ? motorsportProjects : astroProjects;
+      projects[projIndex].images[photoIndex][field] = value.trim();
+    }
+
+    // Push new picture object into target project list
+    function addPhotoToProject(gallery, projIndex) {
+      const srcInp = document.getElementById(`add-img-src-${gallery}-${projIndex}`);
+      const altInp = document.getElementById(`add-img-alt-${gallery}-${projIndex}`);
+      const commInp = document.getElementById(`add-img-comm-${gallery}-${projIndex}`);
+
+      if (!srcInp.value) {
+        alert("Please provide at least an image file source link.");
+        return;
+      }
+
+      const projects = gallery === 'motorsport' ? motorsportProjects : astroProjects;
+      projects[projIndex].images.push({
+        src: srcInp.value.trim(),
+        alt: altInp.value.trim(),
+        comment: commInp.value.trim()
+      });
+
+      renderProjects(gallery);
+      // Re-open drawer so user sees their item loaded
+      document.getElementById(`drawer-${gallery}-${projIndex}`).classList.add('open');
+    }
+
+    // Splice target photo asset item out of data layer array
+    function removePhoto(gallery, projIndex, photoIndex) {
+      if(!confirm("Remove this photo from the project album?")) return;
+      const projects = gallery === 'motorsport' ? motorsportProjects : astroProjects;
+      projects[projIndex].images.splice(photoIndex, 1);
+      
+      renderProjects(gallery);
+      document.getElementById(`drawer-${gallery}-${projIndex}`).classList.add('open');
+    }
+
+    function addProject() {
+      const idInput = document.getElementById('new-proj-id');
+      const displayTitleInput = document.getElementById('new-proj-display-title');
+      const titleInput = document.getElementById('new-proj-title');
+      const imgInput = document.getElementById('new-proj-img');
+      const subtitleInput = document.getElementById('new-proj-subtitle');
+
+      if (!idInput.value || !titleInput.value) {
+        alert("Please provide at least a Unique ID and Full Title.");
+        return;
+      }
+
+      const newProject = {
+        id: idInput.value.trim(),
+        title: titleInput.value.trim(),
+        subtitle: subtitleInput.value.trim(),
+        displayTitle: displayTitleInput.value.trim() || titleInput.value.trim(),
+        displayImage: imgInput.value.trim() || "../images/upcoming.png",
+        images: []
+      };
+
+      if (currentGallery === 'motorsport') {
+        motorsportProjects.push(newProject);
+      } else {
+        astroProjects.push(newProject);
+      }
+
+      renderProjects(currentGallery);
+
+      idInput.value = '';
+      displayTitleInput.value = '';
+      titleInput.value = '';
+      imgInput.value = '';
+      subtitleInput.value = '';
+
+      showStatus('New project added! Don\'t forget to click Save Changes below.', 'success', currentGallery);
+    }
+
+    function removeProject(gallery, index) {
+      if (!confirm("Are you sure you want to completely delete this project card and all of its associated images?")) return;
+      const projects = gallery === 'motorsport' ? motorsportProjects : astroProjects;
+      projects.splice(index, 1);
+      renderProjects(gallery);
+      showStatus('Project removed! Click Save Changes to rewrite the JSON data file.', 'error', gallery);
+    }
+
+    function handleDragStart(e, gallery) {
+      const pItem = e.target.closest('.project-item');
+      draggedItem = { gallery, index: parseInt(pItem.dataset.index) };
+      pItem.classList.add('dragging');
+    }
+
+    function handleDragOver(e) {
+      e.preventDefault();
+      e.currentTarget.classList.add('drag-over');
+    }
+
+    function handleDragLeave(e) {
+      e.currentTarget.classList.remove('drag-over');
+    }
+
+    function handleDrop(e, gallery, targetIndex) {
+      e.preventDefault();
+      e.currentTarget.classList.remove('drag-over');
+
+      if (!draggedItem || draggedItem.gallery !== gallery) return;
+
+      const projects = gallery === 'motorsport' ? motorsportProjects : astroProjects;
+      const [item] = projects.splice(draggedItem.index, 1);
+      projects.splice(targetIndex, 0, item);
+
+      draggedItem = null;
+      renderProjects(gallery);
+    }
+
+    function switchTab(tab) {
+      currentGallery = tab;
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById(tab).classList.add('active');
+      document.getElementById(`tab-btn-${tab}`).classList.add('active');
+      document.getElementById('form-title').innerText = `Add New Project to ${tab === 'motorsport' ? 'Motorsport' : 'Astrophotography'}`;
+    }
+
+    function saveProjects(gallery) {
+      const projects = gallery === 'motorsport' ? motorsportProjects : astroProjects;
+      try {
+        const dataStr = JSON.stringify(projects, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `projects-${gallery}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        showStatus('Changes generated successfully! Move the downloaded file into your project folder.', 'success', gallery);
+      } catch (error) {
+        showStatus('Error exporting file tracking layers', 'error', gallery);
+      }
+    }
+
+    function showStatus(message, type, gallery) {
+      const statusEl = document.getElementById(`${gallery}-status`);
+      if(!statusEl) return;
+      statusEl.textContent = message;
+      statusEl.className = `status-message ${type}`;
+      setTimeout(() => { statusEl.className = 'status-message'; }, 4000);
+    }
+
+    loadProjects();
+  </script>
+</body>
+
+</html>
