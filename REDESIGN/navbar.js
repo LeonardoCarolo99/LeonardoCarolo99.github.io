@@ -3,7 +3,7 @@ const navbarHTML = `
 <header class="main-navbar">
   <div class="logo">LEONARDO CARÔLO</div>
   <nav class="nav-links">
-    <a href="types.html" id="nav-home">Home</a>
+    <a href="index.html" id="nav-home">Home</a>
     <a href="about.html" id="nav-about">About Me</a>
     <!-- <a href="booking.html" id="nav-booking">Booking</a> -->
     <a href="contacts.html" id="nav-contacts">Contacts</a>
