@@ -4,25 +4,25 @@
     "title": "WRC Vodafone Rally Portugal 2026",
     "subtitle": "This was my first time at a Rally event. I loved the speed of these machines. The dirt flying through the air. The crowd roaring for action. Can't wait for next year.",
     "displayTitle": "WRC Rally Portugal",
-    "displayImage": "../images/RallyPortugal/THEONEIMG_5479.JPG",
+    "displayImage": "../images/RallyPortugal/THEONEIMG_5479.webp",
     "images": [
       {
-        "src": "../images/RallyPortugal/FafeJump.jpg",
+        "src": "../images/RallyPortugal/FafeJump.webp",
         "alt": "Fafe's Jump",
         "comment": "Although not one of my most technical photos, this one impressed me due to how much i managed to capture."
       },
       {
-        "src": "../images/RallyPortugal/THEONEIMG_5479.JPG",
+        "src": "../images/RallyPortugal/THEONEIMG_5479.webp",
         "alt": "One of my favorites",
         "comment": "One of my favorite photos from this event."
       },
       {
-        "src": "../images/RallyPortugal/Felg-1.jpg",
+        "src": "../images/RallyPortugal/Felg-1.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/RallyPortugal/Felg.jpg",
+        "src": "../images/RallyPortugal/Felg.webp",
         "alt": "",
         "comment": ""
       }
@@ -33,25 +33,25 @@
     "title": "Private Photoshoot - Mercedes CLA",
     "subtitle": "I was recently hired to shoot this beautiful Mercedes CLA.",
     "displayTitle": "Mercedes CLA 250+ EQ",
-    "displayImage": "../images/CLA/CLA4.png",
+    "displayImage": "../images/CLA/CLA4.webp",
     "images": [
       {
-        "src": "../images/CLA/CLA4.png",
+        "src": "../images/CLA/CLA4.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/CLA/CLA.jpg",
+        "src": "../images/CLA/CLA.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/CLA/CLA2.jpg",
+        "src": "../images/CLA/CLA2.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/CLA/CLA3.jpg",
+        "src": "../images/CLA/CLA3.webp",
         "alt": "",
         "comment": ""
       }
@@ -62,45 +62,45 @@
     "title": "Gathering Supercars 2026",
     "subtitle": "A spectacular gathering of exotic supercars.",
     "displayTitle": "Gathering Supercars",
-    "displayImage": "../images/Gathering/Ferrari.png",
+    "displayImage": "../images/Gathering/Ferrari.webp",
     "images": [
       {
-        "src": "../images/Gathering/Alpenglow.png",
+        "src": "../images/Gathering/Alpenglow.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/Gathering/BMWDrifting.png",
+        "src": "../images/Gathering/BMWDrifting.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/Gathering/Ferrari.png",
+        "src": "../images/Gathering/Ferrari.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/Gathering/GT3RS.png",
+        "src": "../images/Gathering/GT3RS.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/Gathering/GTR.png",
+        "src": "../images/Gathering/GTR.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/Gathering/Mustang-1.png",
+        "src": "../images/Gathering/Mustang-1.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/Gathering/SkylineIG.png",
+        "src": "../images/Gathering/SkylineIG.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/Gathering/laferrari.jpg",
+        "src": "../images/Gathering/laferrari.webp",
         "alt": "",
         "comment": ""
       }
@@ -111,50 +111,50 @@
     "title": "Estoril Experience Day I",
     "subtitle": "My first track day. It was a lot of fun. I got to see all types of machines and attempted panning shots for the first time.",
     "displayTitle": "Estoril Experience Day I",
-    "displayImage": "../images/AMG GTR.png",
+    "displayImage": "../images/AMG GTR.webp",
     "images": [
       {
-        "src": "../images/Benz.png",
+        "src": "../images/Benz.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/AMG GTR.png",
+        "src": "../images/AMG GTR.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/Alpine.png",
+          "src": "../images/Alpine.webp",
+          "alt": "",
+        "comment": ""
+      },
+      {
+        "src": "../images/BMW DOURADO.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/BMW DOURADO.png",
+        "src": "../images/GT3 Rims.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/GT3 Rims.png",
+        "src": "../images/Ferrari Badge.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/Ferrari Badge.png",
+        "src": "../images/Radical.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/Radical.png",
+        "src": "../images/EstorilCar.webp",
         "alt": "",
         "comment": ""
       },
       {
-        "src": "../images/EstorilCar.png",
-        "alt": "",
-        "comment": ""
-      },
-      {
-        "src": "../images/Vantage.png",
+        "src": "../images/Vantage.webp",
         "alt": "",
         "comment": ""
       }
@@ -165,7 +165,7 @@
     "title": "Estoril Experience Day II",
     "subtitle": "This will be my second time attending this track. This time, armed with a CPL filter, I expect to fix some of the issues I found in my previous projects.",
     "displayTitle": "Estoril Experience Day II",
-    "displayImage": "../images/upcoming.png",
+    "displayImage": "../images/upcoming.webp",
     "images": []
   },
   {
@@ -173,7 +173,7 @@
     "title": "Power Arena",
     "subtitle": "My experience at the Power Arena. A great place for racing and driving fun.",
     "displayTitle": "Power Arena",
-    "displayImage": "../images/upcoming.png",
+    "displayImage": "../images/upcoming.webp",
     "images": []
   },
   {
@@ -181,7 +181,7 @@
     "title": "GTWC EU",
     "subtitle": "My experience at the GTWC EU event. A great opportunity to race against the best drivers in the region.",
     "displayTitle": "GTWC EU",
-    "displayImage": "../images/upcoming.png",
+    "displayImage": "../images/upcoming.webp",
     "images": []
   },
   {
@@ -189,7 +189,7 @@
     "title": "4th Drift Viseu 2026",
     "subtitle": "My experience at the Drift Viseu 2026 event. A great opportunity to race against the best drivers in the region.",
     "displayTitle": "4th Drift Viseu 2026",
-    "displayImage": "../images/upcoming.png",
+    "displayImage": "../images/upcoming.webp",
     "images": []
   },
   {
@@ -197,7 +197,7 @@
     "title": "Iberian Supercars 2026",
     "subtitle": "My experience at the Iberian Supercars 2026 event. A great opportunity to race against the best drivers in the region.",
     "displayTitle": "Iberian Supercars 2026",
-    "displayImage": "../images/upcoming.png",
+    "displayImage": "../images/upcoming.webp",
     "images": []
   },
   {
@@ -205,7 +205,7 @@
     "title": "Exclusive Top Cars 2026",
     "subtitle": "My experience at the Exclusive Top Cars 2026 event. A great opportunity to race against the best drivers in the region.",
     "displayTitle": "Exclusive Top Cars 2026",
-    "displayImage": "../images/upcoming.png",
+    "displayImage": "../images/upcoming.webp",
     "images": []
   }
 ]
