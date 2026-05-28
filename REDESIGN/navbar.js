@@ -1,33 +1,41 @@
-// Navbar HTML content
+// Smart path calculation based on where the user is currently browsing
+const isInsideRedesign = window.location.pathname.includes('/REDESIGN/');
+const toRoot = isInsideRedesign ? '../' : './';
+const toRedesign = isInsideRedesign ? './' : 'REDESIGN/';
+
+// Navbar HTML content using dynamic variables
 const navbarHTML = `
 <header class="main-navbar">
   <div class="logo">LEONARDO CARÔLO</div>
   <nav class="nav-links">
-    <a href="REDESIGN/index.html" id="nav-home">Home</a>
-    <a href="REDESIGN/about.html" id="nav-about">About Me</a>
-    <!-- <a href="REDESIGN/booking.html" id="nav-booking">Booking</a> -->
-    <a href="REDESIGN/contacts.html" id="nav-contacts">Contacts</a>
+    <a href="${toRoot}index.html" id="nav-home">Home</a>
+    <a href="${toRedesign}about.html" id="nav-about">About Me</a>
+    <a href="${toRedesign}contacts.html" id="nav-contacts">Contacts</a>
   </nav>
 </header>
 `;
 
 // Load navbar into pages
 document.addEventListener('DOMContentLoaded', function() {
-  const navContainer = document.getElementById('navbar-container');
-  if (navContainer) {
-    navContainer.innerHTML = navbarHTML;
+  const navContainer = document.getElementById('navbar-container'); //
+  if (navContainer) { //[cite: 1]
+    navContainer.innerHTML = navbarHTML; //[cite: 1]
     setActiveNavLink();
   }
 });
 
 // Set active nav link based on current page
 function setActiveNavLink() {
-  const currentPage = window.location.pathname.split('/').pop() || 'REDESIGN/index.html';
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
   const navLinks = document.querySelectorAll('.nav-links a');
   
   navLinks.forEach(link => {
     link.classList.remove('active');
-    if (link.getAttribute('href') === currentPage) {
+    
+    // Extract just the filename from the href attribute to compare cleanly
+    const linkPage = link.getAttribute('href').split('/').pop();
+    
+    if (linkPage === currentPage) {
       link.classList.add('active');
     }
   });
