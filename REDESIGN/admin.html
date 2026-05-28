@@ -30,6 +30,7 @@
 
     .admin-header {
       margin-bottom: 40px;
+      position: relative;
     }
 
     .admin-header h1 {
@@ -386,6 +387,56 @@
       text-align: center;
       font-style: italic;
     }
+    .home-btn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      background: transparent;
+      border: 1px solid rgba(255, 216, 62, 0.2);
+      color: #ffd83e;
+      padding: 8px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.15s ease, transform 0.12s ease;
+    }
+    .home-btn:hover { background: rgba(255,216,62,0.06); transform: translateY(-2px); }
+    .auth-btn {
+      position: absolute;
+      right: 80px;
+      top: 0;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .auth-btn.login { border-color: rgba(100, 181, 246, 0.3); color: #64b5f6 }
+    .auth-btn.logout { border-color: rgba(244, 67, 54, 0.2); color: #f44336 }
+
+    /* admin-lock overlay */
+    .admin-lock {
+      position: fixed;
+      left: 0; right: 0; top: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .admin-lock .box {
+      background: #111;
+      padding: 24px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.06);
+      text-align: center;
+      color: #fff;
+      width: 420px;
+    }
+    .admin-lock.show { display: flex; }
   </style>
 </head>
 
@@ -395,6 +446,8 @@
     <div class="admin-header">
       <h1>Gallery Admin</h1>
       <p>Manage your photography projects • Reorder entries, change descriptions, or edit individual gallery photo files.</p>
+      <a href="../index.html" class="home-btn">Home</a>
+      <button id="authBtn" class="auth-btn login" onclick="startLogin()">Login</button>
     </div>
 
     <div class="tabs">
@@ -446,11 +499,17 @@
       <div class="drag-hint">💡 Drag projects by their headers to reorder them</div>
     </div>
   </div>
-  <!-- button for returning to index.html, fixed on the right side -->
-   <a href="../index.html" class="buttontoreturn">
-  <button class="buttontoreturn">Return to Gallery</button>
+  <!-- home button moved into header -->
 
-   </a>
+  <div id="adminLock" class="admin-lock">
+    <div class="box">
+      <h3>Admin access required</h3>
+      <p style="color:#ccc; margin:10px 0 18px;">You must sign in with GitHub to access the admin editor.</p>
+      <div style="display:flex; gap:10px; justify-content:center;">
+        <button class="add-btn" onclick="startLogin()">Sign in with GitHub</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     let motorsportProjects = [];
@@ -739,6 +798,69 @@
 
     // run auto-publish after page loads
     window.addEventListener('DOMContentLoaded', autoPublishFromCallback);
+
+    // auth helpers
+    function serverBaseFromSession() {
+      return sessionStorage.getItem('publisher_server') || null;
+    }
+
+    function startLogin() {
+      const serverBase = prompt('OAuth server URL', serverBaseFromSession() || 'http://localhost:3000');
+      if (!serverBase) return;
+      try { sessionStorage.setItem('publisher_server', serverBase); } catch (ignore) {}
+      const returnTo = window.location.href;
+      const startUrl = `${serverBase.replace(/\/$/, '')}/auth/start?returnTo=${encodeURIComponent(returnTo)}`;
+      window.location.href = startUrl;
+    }
+
+    async function checkAuth() {
+      const oauthState = sessionStorage.getItem('oauth_state') || getQueryParam('oauth_state');
+      const serverBase = serverBaseFromSession();
+      const lock = document.getElementById('adminLock');
+      const authBtn = document.getElementById('authBtn');
+      if (!serverBase) {
+        // not configured - show lock
+        if (lock) lock.classList.add('show');
+        if (authBtn) authBtn.className = 'auth-btn login';
+        return;
+      }
+      if (!oauthState) {
+        // not logged in yet
+        if (lock) lock.classList.add('show');
+        if (authBtn) authBtn.className = 'auth-btn login';
+        return;
+      }
+
+      try {
+        const res = await fetch(`${serverBase.replace(/\/$/, '')}/me?state=${encodeURIComponent(oauthState)}`);
+        if (!res.ok) throw new Error('not authenticated');
+        const js = await res.json();
+        // show logged-in state
+        if (lock) lock.classList.remove('show');
+        if (authBtn) { authBtn.className = 'auth-btn logout'; authBtn.textContent = js.login || 'Logout'; authBtn.onclick = logout; }
+        // store oauth_state if it came from query
+        try { sessionStorage.setItem('oauth_state', oauthState); } catch (ignore) {}
+      } catch (err) {
+        if (lock) lock.classList.add('show');
+        if (authBtn) authBtn.className = 'auth-btn login';
+      }
+    }
+
+    async function logout() {
+      const oauthState = sessionStorage.getItem('oauth_state');
+      const serverBase = serverBaseFromSession();
+      if (serverBase && oauthState) {
+        try {
+          await fetch(`${serverBase.replace(/\/$/, '')}/logout`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ state: oauthState }) });
+        } catch (ignore) {}
+      }
+      sessionStorage.removeItem('oauth_state');
+      // keep serverBase stored so user can login again without re-entering
+      location.reload();
+    }
+
+    // perform initial auth check
+    window.addEventListener('load', () => { checkAuth(); });
 
     function addProject() {
       const idInput = document.getElementById('new-proj-id');

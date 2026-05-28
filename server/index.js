@@ -146,4 +146,30 @@ app.post('/publish', async (req, res) => {
   }
 });
 
+// Return basic user info for a given state
+app.get('/me', async (req, res) => {
+  const { state } = req.query;
+  const token = tokenStore[state];
+  if (!token) return res.status(401).json({ error: 'Not authenticated' });
+  try {
+    const r = await fetch('https://api.github.com/user', { headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' } });
+    if (!r.ok) return res.status(500).json({ error: 'Could not fetch user' });
+    const j = await r.json();
+    return res.json({ login: j.login, id: j.id, avatar: j.avatar_url });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'User lookup failed' });
+  }
+});
+
+// Logout: remove token/state mapping
+app.post('/logout', (req, res) => {
+  const { state } = req.body || {};
+  if (state) {
+    delete tokenStore[state];
+    delete stateStore[state];
+  }
+  res.json({ ok: true });
+});
+
 app.listen(PORT, () => console.log(`OAuth publisher listening on http://localhost:${PORT}`));
