@@ -11,6 +11,7 @@ const navbarHTML = `
     <a href="${toRoot}index.html" id="nav-home">Home</a>
     <a href="${toRedesign}about.html" id="nav-about">About Me</a>
     <a href="${toRedesign}contacts.html" id="nav-contacts">Contacts</a>
+    <a href="#" id="nav-admin" onclick="openAdmin(event)">Admin</a>
   </nav>
 </header>
 `;
@@ -23,6 +24,24 @@ document.addEventListener('DOMContentLoaded', function() {
     setActiveNavLink();
   }
 });
+
+// Prompt for admin password and navigate to admin page only if correct
+function openAdmin(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  try {
+    const entry = window.prompt('Enter admin password:');
+    if (entry === null) return; // cancelled
+    if (entry === 'password') {
+      // navigate to admin area; use the same path logic as the navbar links
+      const adminPath = (window.location.pathname.includes('/REDESIGN/') ? './' : 'REDESIGN/') + 'admin.html';
+      window.location.href = adminPath;
+    } else {
+      alert('Incorrect password.');
+    }
+  } catch (err) {
+    console.error('Admin open failed', err);
+  }
+}
 
 // Set active nav link based on current page
 function setActiveNavLink() {
