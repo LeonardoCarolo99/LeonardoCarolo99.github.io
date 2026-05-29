@@ -557,6 +557,8 @@
                  <div style="margin-top:12px; display:flex; gap:10px; align-items:center;">
                    <input type="file" id="upload-photo-input-${gallery}-${pIndex}" accept="image/*" multiple style="display:none" onchange="handlePhotoFiles('${gallery}', ${pIndex}, this.files)">
                    <button class="add-btn" onclick="document.getElementById('upload-photo-input-${gallery}-${pIndex}').click();">Upload Photo(s)</button>
+                      <input type="file" id="import-folder-input-${gallery}-${pIndex}" webkitdirectory directory multiple style="display:none" onchange="handleFolderImport('${gallery}', ${pIndex}, this.files)">
+                      <button class="add-btn" onclick="document.getElementById('import-folder-input-${gallery}-${pIndex}').click();">Import Folder</button>
                    <span style="color:#666; font-size:0.9em">Or drag & drop images into the album area.</span>
                  </div>
               </div>
@@ -565,6 +567,23 @@
           </div>
         `;
       }).join('');
+    }
+
+    // Import a folder selected by the user (preserves relative paths)
+    function handleFolderImport(gallery, projIndex, files) {
+      if (!files || files.length === 0) return;
+      const projects = gallery === 'motorsport' ? motorsportProjects : astroProjects;
+      Array.from(files).forEach(file => {
+        if (!file.type || !file.type.startsWith('image/')) return;
+        // webkitRelativePath gives the path relative to the chosen folder
+        const rel = file.webkitRelativePath || file.name;
+        // Construct a relative src assuming images live under ../images/
+        const srcPath = `../images/${rel}`;
+        projects[projIndex].images.push({ src: srcPath, alt: file.name, comment: '' });
+      });
+      renderProjects(gallery);
+      const d = document.getElementById(`drawer-${gallery}-${projIndex}`);
+      if (d) d.classList.add('open');
     }
 
     // Toggle the drop down accordion visibility
