@@ -401,42 +401,6 @@
       transition: background 0.15s ease, transform 0.12s ease;
     }
     .home-btn:hover { background: rgba(255,216,62,0.06); transform: translateY(-2px); }
-    .auth-btn {
-      position: absolute;
-      right: 80px;
-      top: 0;
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .auth-btn.login { border-color: rgba(100, 181, 246, 0.3); color: #64b5f6 }
-    .auth-btn.logout { border-color: rgba(244, 67, 54, 0.2); color: #f44336 }
-
-    /* admin-lock overlay */
-    .admin-lock {
-      position: fixed;
-      left: 0; right: 0; top: 0; bottom: 0;
-      background: rgba(0,0,0,0.6);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-    .admin-lock .box {
-      background: #111;
-      padding: 24px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.06);
-      text-align: center;
-      color: #fff;
-      width: 420px;
-    }
-    .admin-lock.show { display: flex; }
   </style>
 </head>
 
@@ -447,7 +411,6 @@
       <h1>Gallery Admin</h1>
       <p>Manage your photography projects • Reorder entries, change descriptions, or edit individual gallery photo files.</p>
       <a href="../index.html" class="home-btn">Home</a>
-      <button id="authBtn" class="auth-btn login" onclick="startLogin()">Login</button>
     </div>
 
     <div class="tabs">
@@ -486,7 +449,6 @@
     <div id="motorsport" class="tab-content active">
       <div class="projects-list" id="motorsport-list"></div>
       <button class="save-btn" onclick="saveProjects('motorsport')">Save Changes</button>
-      <button class="save-btn" onclick="publishProjects('motorsport')">Publish to GitHub</button>
       <div class="status-message" id="motorsport-status"></div>
       <div class="drag-hint">💡 Drag projects by their headers to reorder them</div>
     </div>
@@ -494,22 +456,11 @@
     <div id="astro" class="tab-content">
       <div class="projects-list" id="astro-list"></div>
       <button class="save-btn" onclick="saveProjects('astro')">Save Changes</button>
-      <button class="save-btn" onclick="publishProjects('astro')">Publish to GitHub</button>
       <div class="status-message" id="astro-status"></div>
       <div class="drag-hint">💡 Drag projects by their headers to reorder them</div>
     </div>
   </div>
   <!-- home button moved into header -->
-
-  <div id="adminLock" class="admin-lock">
-    <div class="box">
-      <h3>Admin access required</h3>
-      <p style="color:#ccc; margin:10px 0 18px;">You must sign in with GitHub to access the admin editor.</p>
-      <div style="display:flex; gap:10px; justify-content:center;">
-        <button class="add-btn" onclick="startLogin()">Sign in with GitHub</button>
-      </div>
-    </div>
-  </div>
 
   <script>
     let motorsportProjects = [];
@@ -708,159 +659,8 @@
       reader.readAsDataURL(file);
     }
 
-    // Initiate OAuth-backed publish flow via server
-    function getQueryParam(name) {
-      const params = new URLSearchParams(window.location.search);
-      return params.get(name);
-    }
-
-    async function publishProjects(gallery) {
-      const serverBase = prompt('OAuth server URL', 'http://localhost:3000');
-      if (!serverBase) return showStatus('Publish canceled: no server URL', 'error', gallery);
-
-      // If we already have an oauth_state from a completed auth redirect, use it to publish
-      const oauthState = getQueryParam('oauth_state');
-      const projects = gallery === 'motorsport' ? motorsportProjects : astroProjects;
-
-      if (oauthState) {
-        showStatus('Sending projects to publisher...', 'success', gallery);
-        try {
-          const res = await fetch(`${serverBase.replace(/\/$/, '')}/publish`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ state: oauthState, gallery, projects })
-          });
-          const js = await res.json();
-          if (!res.ok) throw new Error(js.error || JSON.stringify(js));
-          showStatus('Publish complete — repository updated.', 'success', gallery);
-        } catch (err) {
-          console.error(err);
-          showStatus('Publish failed: ' + (err.message || err), 'error', gallery);
-        }
-        return;
-      }
-
-      // No auth state yet — collect repo info and start OAuth flow
-      const owner = prompt('Repo owner (username)', 'LeonardoCarolo99');
-      if (!owner) return showStatus('Publish canceled: no owner', 'error', gallery);
-      const repo = prompt('Repo name', 'LeonardoCarolo99.github.io');
-      if (!repo) return showStatus('Publish canceled: no repo', 'error', gallery);
-      const branch = prompt('Branch', 'main') || 'main';
-
-      const returnTo = window.location.href;
-      // save projects to session storage so we can publish after redirect
-      try { sessionStorage.setItem(`pendingPublish_${gallery}`, JSON.stringify(projects)); } catch (ignore) {}
-      try { sessionStorage.setItem('publisher_server', serverBase); } catch (ignore) {}
-
-      const startUrl = `${serverBase.replace(/\/$/, '')}/auth/start?returnTo=${encodeURIComponent(returnTo)}&owner=${encodeURIComponent(owner)}&repo=${encodeURIComponent(repo)}&branch=${encodeURIComponent(branch)}&gallery=${encodeURIComponent(gallery)}`;
-      // redirect to server to begin OAuth flow
-      window.location.href = startUrl;
-    }
-
-    // Auto-publish when returning from OAuth callback (oauth_state present)
-    async function autoPublishFromCallback() {
-      const oauthState = getQueryParam('oauth_state');
-      if (!oauthState) return;
-      const serverBase = sessionStorage.getItem('publisher_server') || prompt('OAuth server URL', 'http://localhost:3000');
-      if (!serverBase) return showStatus('Publish canceled: no server URL', 'error', 'motorsport');
-
-      const galleries = ['motorsport','astro'];
-      for (const gallery of galleries) {
-        const pending = sessionStorage.getItem(`pendingPublish_${gallery}`);
-        if (!pending) continue;
-        let projects;
-        try { projects = JSON.parse(pending); } catch (e) { continue; }
-
-        showStatus(`Publishing ${gallery}...`, 'success', gallery);
-        try {
-          const res = await fetch(`${serverBase.replace(/\/$/, '')}/publish`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ state: oauthState, gallery, projects })
-          });
-          const js = await res.json();
-          if (!res.ok) throw new Error(js.error || JSON.stringify(js));
-          sessionStorage.removeItem(`pendingPublish_${gallery}`);
-          showStatus(`Publish complete for ${gallery}.`, 'success', gallery);
-        } catch (err) {
-          console.error(err);
-          showStatus(`Publish failed for ${gallery}: ` + (err.message || err), 'error', gallery);
-        }
-      }
-
-      // cleanup URL (remove oauth_state)
-      try {
-        const url = new URL(window.location.href);
-        url.searchParams.delete('oauth_state');
-        window.history.replaceState({}, document.title, url.toString());
-      } catch (ignore) {}
-    }
-
-    // run auto-publish after page loads
-    window.addEventListener('DOMContentLoaded', autoPublishFromCallback);
-
-    // auth helpers
-    function serverBaseFromSession() {
-      return sessionStorage.getItem('publisher_server') || null;
-    }
-
-    function startLogin() {
-      const serverBase = prompt('OAuth server URL', serverBaseFromSession() || 'http://localhost:3000');
-      if (!serverBase) return;
-      try { sessionStorage.setItem('publisher_server', serverBase); } catch (ignore) {}
-      const returnTo = window.location.href;
-      const startUrl = `${serverBase.replace(/\/$/, '')}/auth/start?returnTo=${encodeURIComponent(returnTo)}`;
-      window.location.href = startUrl;
-    }
-
-    async function checkAuth() {
-      const oauthState = sessionStorage.getItem('oauth_state') || getQueryParam('oauth_state');
-      const serverBase = serverBaseFromSession();
-      const lock = document.getElementById('adminLock');
-      const authBtn = document.getElementById('authBtn');
-      if (!serverBase) {
-        // not configured - show lock
-        if (lock) lock.classList.add('show');
-        if (authBtn) authBtn.className = 'auth-btn login';
-        return;
-      }
-      if (!oauthState) {
-        // not logged in yet
-        if (lock) lock.classList.add('show');
-        if (authBtn) authBtn.className = 'auth-btn login';
-        return;
-      }
-
-      try {
-        const res = await fetch(`${serverBase.replace(/\/$/, '')}/me?state=${encodeURIComponent(oauthState)}`);
-        if (!res.ok) throw new Error('not authenticated');
-        const js = await res.json();
-        // show logged-in state
-        if (lock) lock.classList.remove('show');
-        if (authBtn) { authBtn.className = 'auth-btn logout'; authBtn.textContent = js.login || 'Logout'; authBtn.onclick = logout; }
-        // store oauth_state if it came from query
-        try { sessionStorage.setItem('oauth_state', oauthState); } catch (ignore) {}
-      } catch (err) {
-        if (lock) lock.classList.add('show');
-        if (authBtn) authBtn.className = 'auth-btn login';
-      }
-    }
-
-    async function logout() {
-      const oauthState = sessionStorage.getItem('oauth_state');
-      const serverBase = serverBaseFromSession();
-      if (serverBase && oauthState) {
-        try {
-          await fetch(`${serverBase.replace(/\/$/, '')}/logout`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ state: oauthState }) });
-        } catch (ignore) {}
-      }
-      sessionStorage.removeItem('oauth_state');
-      // keep serverBase stored so user can login again without re-entering
-      location.reload();
-    }
-
-    // perform initial auth check
-    window.addEventListener('load', () => { checkAuth(); });
+    // GitHub login and OAuth flow have been removed for simplicity.
+    // Publishing is no longer handled automatically from this page.
 
     function addProject() {
       const idInput = document.getElementById('new-proj-id');
